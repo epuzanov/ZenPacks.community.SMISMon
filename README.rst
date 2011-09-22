@@ -28,17 +28,21 @@ Normal Installation (packaged egg)
 
 Download the `SMISMon ZenPack <http://community.zenoss.org/docs/DOC-5867>`_. Copy this file to your Zenoss server and run the following commands as the zenoss user.
 
-    | zenpack --install ZenPacks.community.SMISMon-1.0.egg
-    | zenoss restart
+    ::
+
+        zenpack --install ZenPacks.community.SMISMon-1.0.egg
+        zenoss restart
 
 Developer Installation (link mode)
 ----------------------------------
 
 If you wish to further develop and possibly contribute back to the SMISMon ZenPack you should clone the git `repository <https://github.com/epuzanov/ZenPacks.community.SMISMon>`_, then install the ZenPack in developer mode using the following commands.
 
-    | git clone git://github.com/epuzanov/ZenPacks.community.SMISMon.git
-    | zenpack --link --install ZenPacks.community.SMISMon
-    | zenoss restart
+    ::
+
+        git clone git://github.com/epuzanov/ZenPacks.community.SMISMon.git
+        zenpack --link --install ZenPacks.community.SMISMon
+        zenoss restart
 
 
 Usage
