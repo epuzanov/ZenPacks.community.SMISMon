@@ -1,0 +1,133 @@
+################################################################################
+#
+# This program is part of the SMISMon Zenpack for Zenoss.
+# Copyright (C) 2011 Egor Puzanov.
+#
+# This program can be used under the GNU General Public License version 2
+# You can find full information here: http://www.zenoss.com/oss
+#
+################################################################################
+
+__doc__="""interfaces
+
+describes the form field to the user interface.
+
+$Id: interfaces.py,v 1.0 2011/09/04 22:47:59 egor Exp $"""
+
+__version__ = "$Revision: 1.0 $"[11:-2]
+
+from Products.Zuul.interfaces import IComponentInfo
+from Products.Zuul.form import schema
+from Products.Zuul.utils import ZuulMessageFactory as _t
+
+
+class ISNIA_DiskDriveInfo(IComponentInfo):
+    """
+    Info adapter for SNIA Disk Drive components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    manufacturer = schema.Entity(title=u"Manufacturer", readonly=True,
+                                                                group='Details')
+    product = schema.Entity(title=u"Model", readonly=True, group='Details')
+    serialNumber = schema.Text(title=u"Serial #", readonly=True,group='Details')
+    FWRev = schema.Text(title=u"Firmware", readonly=True, group='Details')
+    size = schema.Text(title=u"Size", readonly=True, group='Details')
+    diskType = schema.Text(title=u"Type", readonly=True, group='Details')
+    enclosure = schema.Entity(title=u"Enclosure", readonly=True,group='Details')
+    bay = schema.Int(title=u"Bay", readonly=False, group='Details')
+    storagePool = schema.Entity(title=u"Disk Group", readonly=True,
+                                                                group='Details')
+    wwn = schema.Text(title=u"WWN", readonly=True, group='Details')
+
+class ISNIA_NetworkPortInfo(IComponentInfo):
+    """
+    Info adapter for SNIA FC Port components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    name = schema.Text(title=u"Interface Name", readonly=True, group='Overview')
+    controller = schema.Entity(title=u"Storage Controller", readonly=True,
+                                                                group='Details')
+    fullDuplex = schema.Bool(title=u"Duplex", readonly=True, group='Details')
+    linkTechnology = schema.Text(title=u"Link Technology", readonly=True,
+                                                                group='Details')
+    networkAddresses = schema.List(title=u"networkAddresses", readonly=True,
+                                                                group='Details')
+    type = schema.Text(title=u"Type", readonly=True, group='Details')
+    speed = schema.Text(title=u"Speed", readonly=True, group='Details')
+    mtu = schema.Int(title=u"MTU", readonly=True, group='Details')
+    mac = schema.Text(title=u"MAC", readonly=True, group='Details')
+
+class ISNIA_EnclosureChassisInfo(IComponentInfo):
+    """
+    Info adapter for SNIA Storage Disk Enclosure components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    manufacturer = schema.Entity(title=u"Manufacturer", readonly=True,
+                                                                group='Details')
+    product = schema.Entity(title=u"Model", readonly=True, group='Details')
+    enclosureLayout = schema.Text(title=u"Layout String", readonly=False,
+                                                                group='Details')
+    diskFF = schema.Text(title=u"Disks form factor", readonly=False,
+                                                                group='Details')
+
+class ISNIA_StoragePoolInfo(IComponentInfo):
+    """
+    Info adapter for SNIA Disk Groups components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    totalDisks = schema.Int(title=u"Total Disk", group="Details")
+    totalBytesString = schema.Text(title=u"Total Bytes", readonly=True,
+                                                                group="Details")
+    usedBytesString = schema.Text(title=u"Used Bytes", readonly=True,
+                                                                group="Details")
+    availBytesString = schema.Text(title=u"Available Bytes", readonly=True,
+                                                                group="Details")
+    capacity = schema.Text(title=u"Utilization", readonly=True, group="Details")
+
+class ISNIA_StorageProcessorInfo(IComponentInfo):
+    """
+    Info adapter for SNIA Storage Processor components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    uptime = schema.Text(title=u"Uptime", readonly=True, group='Overview')
+    manufacturer = schema.Entity(title=u"Manufacturer", readonly=True,
+                                                                group='Details')
+    product = schema.Entity(title=u"Model", readonly=True, group='Details')
+    serialNumber = schema.Text(title=u"Serial #", readonly=True,
+                                                                group='Details')
+    FWRev = schema.Text(title=u"Firmware", readonly=True, group='Details')
+    slot = schema.Int(title=u"Slot", readonly=True, group='Details')
+
+class ISNIA_StorageVolumeInfo(IComponentInfo):
+    """
+    Info adapter for SNIA Storage Volume components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    storagePool = schema.Entity(title=u"Disk Group", readonly=True,
+                                                                group='Details')
+    accessType = schema.Text(title=u"Access Type", readonly=True,
+                                                                group='Details')
+    diskType = schema.Text(title=u"Disk Type", readonly=True, group='Details')
+    totalBytesString = schema.Text(title=u"Total Bytes", readonly=True,
+                                                                group="Details")
+
+class ISNIA_ConsistencySetInfo(IComponentInfo):
+    """
+    Info adapter for SNIA DR Group components.
+    """
+    status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    participationType = schema.Text(title=u"Role",readonly=True,group='Details')
+    writeMode = schema.Text(title=u"Write Mode", readonly=True, group='Details')
+    storagePool = schema.Entity(title=u"Log Disk Group", readonly=True,
+                                                                group='Details')
+    logDiskReservedCapacity = schema.Entity(title=u"Log Disk Reserved Capacity",
+                                                readonly=True, group='Details')
+    currentPercentLogLevel = schema.Text(title=u"Log Usage", readonly=True,
+                                                                group='Details')
+    remoteCellName = schema.Text(title=u"Remote System", readonly=True,
+                                                                group='Details')
+    hostAccessMode = schema.Text(title=u"Host Access Mode", readonly=True,
+                                                                group='Details')
+    failSafe = schema.Text(title=u"Failsafe", readonly=True, group='Details')
+    suspendMode = schema.Text(title=u"Suspend Mode", readonly=True,
+                                                                group='Details')

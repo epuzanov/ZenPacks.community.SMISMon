@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:zcml="http://namespaces.zope.org/zcml">
+
+    <configure zcml:condition="installed Products.Zuul">
+
+        <adapter factory=".info.SNIA_DiskDriveInfo"
+                 for=".SNIA_DiskDrive.SNIA_DiskDrive"
+                 provides=".interfaces.ISNIA_DiskDriveInfo"
+                 />
+
+        <adapter factory=".info.SNIA_NetworkPortInfo"
+                 for=".SNIA_NetworkPort.SNIA_NetworkPort"
+                 provides=".interfaces.ISNIA_NetworkPortInfo"
+                 />
+
+        <adapter factory=".info.SNIA_EnclosureChassisInfo"
+                 for=".SNIA_EnclosureChassis.SNIA_EnclosureChassis"
+                 provides=".interfaces.ISNIA_EnclosureChassisInfo"
+                 />
+
+        <adapter factory=".info.SNIA_StoragePoolInfo"
+                 for=".SNIA_StoragePool.SNIA_StoragePool"
+                 provides=".interfaces.ISNIA_StoragePoolInfo"
+                 />
+
+        <adapter factory=".info.SNIA_StorageProcessorInfo"
+                 for=".SNIA_StorageProcessor.SNIA_StorageProcessor"
+                 provides=".interfaces.ISNIA_StorageProcessorInfo"
+                 />
+
+        <adapter factory=".info.SNIA_StorageVolumeInfo"
+                 for=".SNIA_StorageVolume.SNIA_StorageVolume"
+                 provides=".interfaces.ISNIA_StorageVolumeInfo"
+                 />
+
+        <adapter factory=".info.SNIA_ConsistencySetInfo"
+                 for=".SNIA_ConsistencySet.SNIA_ConsistencySet"
+                 provides=".interfaces.ISNIA_ConsistencySetInfo"
+                 />
+
+        <browser:resourceDirectory
+                 name="smismon"
+                 directory="resources"
+                 />
+
+        <browser:viewlet
+                 name="js-smismon"
+                 for=".SNIA_Device.SNIA_Device"
+                 paths="/++resource++smismon/SMISMon.js"
+                 weight="10"
+                 manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
+                 class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+                 permission="zope2.Public"
+                 />
+    </configure>
+</configure>
