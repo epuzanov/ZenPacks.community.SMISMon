@@ -12,9 +12,9 @@ __doc__="""SNIA_StorageVolume
 
 SNIA_StorageVolume is an abstraction of a CIM_StorageVolume
 
-$Id: SNIA_StorageVolume.py,v 1.0 2011/09/04 22:46:50 egor Exp $"""
+$Id: SNIA_StorageVolume.py,v 1.1 2011/09/23 15:54:25 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
@@ -113,9 +113,9 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
         id.
         """
         for sp in self.os().storagepools() or []:
-            if sp.getCimPath() != spid: continue
+            if sp.snmpindex != spid: continue
             self.storagepool.addRelation(sp)
-	    break
+            break
 
 
     security.declareProtected(ZEN_VIEW, 'getStoragePool')

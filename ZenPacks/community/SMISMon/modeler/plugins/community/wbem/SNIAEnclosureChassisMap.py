@@ -12,9 +12,9 @@ __doc__="""SNIAEnclosureChassisMap
 
 SNIAEnclosureChassisMap maps CIM_Chassis class to SNIA_EnclosureChassis class.
 
-$Id: SNIAEnclosureChassisMap.py,v 1.0 2011/09/04 22:51:16 egor Exp $"""
+$Id: SNIAEnclosureChassisMap.py,v 1.1 2011/09/23 15:57:27 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -37,7 +37,7 @@ class SNIAEnclosureChassisMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        "__PATH":"setCimPath",
+                        "__PATH":"snmpindex",
                         "Tag":"id",
                         "Manufacturer":"_manuf",
                         "Model":"setProductKey",

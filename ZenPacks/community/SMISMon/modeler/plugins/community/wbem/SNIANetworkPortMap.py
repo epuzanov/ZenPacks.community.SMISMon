@@ -12,9 +12,9 @@ __doc__="""SNIANetworkPortMap
 
 SNIANetworkPortMap maps CIM_NetworkPort class to SNIA_NetworkPort class.
 
-$Id: SNIANetworkPortMap.py,v 1.0 2011/09/04 22:50:30 egor Exp $"""
+$Id: SNIANetworkPortMap.py,v 1.1 2011/09/23 15:59:29 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -37,7 +37,7 @@ class SNIANetworkPortMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        "__PATH":"setCimPath",
+                        "__PATH":"snmpindex",
                         "CreationClassName":"_ccn",
                         "Description":"description",
                         "DeviceID":"id",

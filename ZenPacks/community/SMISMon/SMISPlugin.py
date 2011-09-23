@@ -21,7 +21,6 @@ from ZenPacks.community.SQLDataSource.SQLPlugin import SQLPlugin
 class SMISPlugin(SQLPlugin):
 
     deviceProperties = SQLPlugin.deviceProperties + ('snmpSysName',
-                                                    'zWbemProxy',
                                                     'zWinUser',
                                                     'zWinPassword',
                                                     'zSNIAConnectionString',
@@ -30,10 +29,8 @@ class SMISPlugin(SQLPlugin):
 
     def prepareCS(self, device):
         args = [getattr(device, 'zSNIAConnectionString',
-                                        "'pywbemdb',scheme='https',port=5989")]
+                        "'pywbemdb',scheme='https',host='localhost',port=5989")]
         kwargs = eval('(lambda *argsl,**kwargs:kwargs)(%s)'%args[0].lower())
-        if 'host' not in kwargs:
-            args.append("host='%s'"%getattr(device, 'zWbemProxy', 'localhost'))
         if 'user' not in kwargs:
             args.append("user='%s'"%getattr(device, 'zWinUser', ''))
         if 'password' not in kwargs:

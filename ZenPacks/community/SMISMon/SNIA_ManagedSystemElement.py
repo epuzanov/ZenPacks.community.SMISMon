@@ -12,9 +12,9 @@ __doc__="""SNIA_ManagedSystemElement
 
 SNIA_ManagedSystemElement is an abstraction for SNIA_ManagedSystemElement class.
 
-$Id: SNIA_ManagedSystemElement.py,v 1.0 2011/09/04 22:35:14 egor Exp $"""
+$Id: SNIA_ManagedSystemElement.py,v 1.1 2011/09/23 15:53:31 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
@@ -22,71 +22,56 @@ from Products.ZenModel.ZenossSecurity import *
 
 class SNIA_ManagedSystemElement(object):
 
-    cimNamespace = 'root/cimv2'
-    cimClassName = ''
-    cimKeybindings = ''
-    cimStatClassName = ''
-    cimStatKeybindings = ''
+    snmpindex = ''
+    statindex = ''
     state = 'OK'
 
-    _properties = (
-                 {'id':'cimNamespace', 'type':'string', 'mode':'w'},
-                 {'id':'cimClassName', 'type':'string', 'mode':'w'},
-                 {'id':'cimKeybindings', 'type':'string', 'mode':'w'},
-                 {'id':'cimStatClassName', 'type':'string', 'mode':'w'},
-                 {'id':'cimStatKeybindings', 'type':'string', 'mode':'w'},
-                 {'id':'state', 'type':'string', 'mode':'w'},
+    _properties=(
+                {'id':'statindex', 'type':'string', 'mode':'w'},
+                {'id':'state', 'type':'string', 'mode':'w'},
                 )
-
-    security = ClassSecurityInfo()
-
-
-    security.declareProtected(ZEN_CHANGE_DEVICE, 'setCimPath')
-    def setCimPath(self, path):
-        """
-        Set cimClassName and cimKeybindings attributes
-        """
-        self.cimClassName, self.cimKeybindings = path.split('.', 1)
-
-
-    security.declareProtected(ZEN_VIEW, 'getCimPath')
-    def getCimPath(self):
-        """
-        Return CIM instance __PATH attribute
-        """
-        return '.'.join((self.cimClassName, self.cimKeybindings))
-
-
-    security.declareProtected(ZEN_CHANGE_DEVICE, 'setCimStatPath')
-    def setCimStatPath(self, path):
-        """
-        Set cimStatClassName and cimStatKeybindings attributes
-        """
-        self.cimStatClassName, self.cimStatKeybindings = path.split('.', 1)
-
-
-    security.declareProtected(ZEN_VIEW, 'getCimStatPath')
-    def getCimStatPath(self):
-        """
-        Return CIM_StatisticalData instance __PATH attribute
-        """
-        return '.'.join((self.cimStatClassName, self.cimStatKeybindings))
 
 
     def cimInstanceName(self):
         """
         Return the CIM Instance Name
         """
-        return '%s WHERE %s' % (self.cimClassName,
-                                self.cimKeybindings.replace(',',' AND '))
+        return self.snmpindex.replace('.', ' WHERE ', 1).replace(',', ' AND ')
 
 
     def cimStatInstanceName(self):
         """
         Return the CIM_StatisticalData Instance Name
         """
-        return '%s WHERE %s' % (self.cimStatClassName,
-                                self.cimStatKeybindings.replace(',',' AND '))
+        return self.statindex.replace('.', ' WHERE ', 1).replace(',', ' AND ')
+
+
+    def cimClassName(self):
+        """
+        Return the CIM Class Name
+        """
+        return self.snmpindex.split('.', 1)[0]
+
+
+    def cimStatClassName(self):
+        """
+        Return the CIM_StatisticalData Class Name
+        """
+        return self.statindex.split('.', 1)[0]
+
+
+    def cimKeybindings(self):
+        """
+        Return the CIM Instance Keybindings
+        """
+        return eval('(lambda **kws:kws)(%s)'%self.snmpindex.split('.', 1)[-1])
+
+
+    def cimStatKeybindings(self):
+        """
+        Return the CIM_StatisticalData Instance Keybindings
+        """
+        return eval('(lambda **kws:kws)(%s)'%self.statindex.split('.', 1)[-1])
 
 
     def statusDot(self, status=None):
@@ -110,9 +95,10 @@ class SNIA_ManagedSystemElement(object):
         """
         Return the RRD Templates list
         """
+        cn = self.cimClassName()
         templates = [self.__class__.__name__]
-        if self.cimClassName and self.cimClassName != self.__class__.__name__:
-            templates.append(self.cimClassName)
+        if cn and cn != self.__class__.__name__:
+            templates.append(cn)
         for i in range(len(templates)):
             templ = self.getRRDTemplateByName(templates.pop(0))
             if templ: templates.append(templ)

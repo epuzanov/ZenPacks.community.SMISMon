@@ -12,9 +12,9 @@ __doc__="""SNIA_DeviceOS
 
 SNIA_DeviceOS is an abstraction of a SMI-S OperatingSystem
 
-$Id: SNIA_DeviceOS.py,v 1.0 2011/09/04 22:42:22 egor Exp $"""
+$Id: SNIA_DeviceOS.py,v 1.1 2011/09/23 15:52:29 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.OperatingSystem import OperatingSystem
@@ -52,7 +52,7 @@ class SNIA_DeviceOS(OperatingSystem):
             'icon'           : 'Device_icon.gif',
             'product'        : 'ZenModel',
             'factory'        : 'manage_addDevice',
-            'immediate_view' : 'smisDeviceOsDetail',
+            'immediate_view' : 'sniaDeviceOsDetail',
             'actions'        : ()
          },
         )

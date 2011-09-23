@@ -12,9 +12,9 @@ __doc__="""SNIAFanMap
 
 SNIAFanMap maps CIM_Fan class to Fan class.
 
-$Id: SNIAFanMap.py,v 1.0 2011/09/20 20:30:48 egor Exp $"""
+$Id: SNIAFanMap.py,v 1.1 2011/09/23 15:59:03 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -36,7 +36,7 @@ class SNIAFanMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        '__PATH':'setCimPath',
+                        '__PATH':'snmpindex',
                         'ActiveCooling':'type',
                         'DeviceID':'id',
                     },

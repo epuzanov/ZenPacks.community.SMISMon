@@ -12,9 +12,9 @@ __doc__="""SNIA_NetworkPort
 
 SNIA_NetworkPort is an abstraction of a CIM_NetworkPort
 
-$Id: SNIA_NetworkPort.py,v 1.0 2011/09/04 22:44:44 egor Exp $"""
+$Id: SNIA_NetworkPort.py,v 1.1 2011/09/23 15:54:00 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.HWComponent import HWComponent
@@ -112,9 +112,9 @@ class SNIA_NetworkPort(HWComponent, SNIA_ManagedSystemElement):
         id.
         """
         for cntrl in self.hw().cards() or []:
-            if cntrl.getCimPath() != cid: continue
+            if cntrl.snmpindex != cid: continue
             self.controller.addRelation(cntrl)
-	    break
+            break
 
 
     security.declareProtected(ZEN_VIEW, 'getController')

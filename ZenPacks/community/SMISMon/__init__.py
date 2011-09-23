@@ -37,7 +37,6 @@ class ZenPack(ZenPackBase):
             ),
             'zPythonClass': ('ZenPacks.community.SMISMon.SNIA_Device', 'string'),
             'zSnmpMonitorIgnore': (True, 'boolean'),
-            'zWbemMonitorIgnore': (False, 'boolean'),
         },
     }
 
@@ -84,7 +83,6 @@ class ZenPack(ZenPackBase):
                 dc._delProperty('zCollectorPlugins')
                 dc._delProperty('zPythonClass')
                 dc._delProperty('zSnmpMonitorIgnore')
-                dc._delProperty('zWbemMonitorIgnore')
             except: continue
         ZenPackBase.remove(self, app, leaveObjects)
         if hasattr(self.dmd.Reports, 'Device Reports'):

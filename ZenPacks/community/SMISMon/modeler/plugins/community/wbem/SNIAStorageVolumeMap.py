@@ -12,9 +12,9 @@ __doc__="""SNIAStorageVolumeMap
 
 SNIAStorageVolumeMap maps CIM_StorageVolume class to SNIA_StorageVolume class.
 
-$Id: SNIAStorageVolumeMap.py,v 1.0 2011/09/04 22:53:09 egor Exp $"""
+$Id: SNIAStorageVolumeMap.py,v 1.1 2011/09/23 16:00:17 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -36,7 +36,7 @@ class SNIAStorageVolumeMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        "__PATH":"setCimPath",
+                        "__PATH":"snmpindex",
                         "Access":"accessType",
                         "Caption":"caption",
                         "BlockSize":"blockSize",
@@ -92,7 +92,7 @@ class SNIAStorageVolumeMap(SMISPlugin):
                 om.diskType = self.raidLevels.get((om._pr, om._dr), 'unknown')
                 om.accessType = self.accessTypes.get(getattr(om, "accessType",
                                                                 0), "Unknown")
-                om.setStoragePool = afp.get(om.setCimPath)
+                om.setStoragePool = afp.get(om.snmpindex)
             except AttributeError:
                 continue
             rm.append(om)

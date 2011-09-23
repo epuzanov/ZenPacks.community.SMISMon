@@ -12,9 +12,9 @@ __doc__="""SNIA_Device
 
 SNIA_Device is an abstraction of a SMI-S Device
 
-$Id: SNIA_Device.py,v 1.0 2011/09/04 22:41:13 egor Exp $"""
+$Id: SNIA_Device.py,v 1.1 2011/09/23 15:51:27 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Globals import InitializeClass
 from distutils.version import StrictVersion
@@ -53,12 +53,12 @@ class SNIA_Device(Device):
                 },
                 { 'id'            : 'osdetail'
                 , 'name'          : 'OS'
-                , 'action'        : 'smisDeviceOsDetail'
+                , 'action'        : 'sniaDeviceOsDetail'
                 , 'permissions'   : (ZEN_VIEW, )
                 },
                 { 'id'            : 'hwdetail'
                 , 'name'          : 'Hardware'
-                , 'action'        : 'smisDeviceHardwareDetail'
+                , 'action'        : 'sniaDeviceHardwareDetail'
                 , 'permissions'   : (ZEN_VIEW, )
                 },
                 { 'id'            : 'events'

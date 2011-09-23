@@ -12,9 +12,9 @@ __doc__="""SNIADiskDriveMap
 
 SNIADiskDriveMap maps CIM_DiskDrive class to HardDisk class.
 
-$Id: SNAIDiskDriveMap.py,v 1.0 2011/09/04 22:49:54 egor Exp $"""
+$Id: SNAIDiskDriveMap.py,v 1.1 2011/09/23 15:57:02 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -37,7 +37,7 @@ class SNIADiskDriveMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        "__PATH":"setCimPath",
+                        "__PATH":"snmpindex",
                         "DeviceID":"id",
                         "MaxMediaSize":"size",
                         "Name":"_name",
@@ -55,7 +55,7 @@ class SNIADiskDriveMap(SMISPlugin):
                         "Manufacturer":"_manuf",
                         "Model":"setProductKey",
                         "Name":"description",
-                        "Replaceable":"description",
+                        "Replaceable":"replaceable",
                         "SerialNumber":"serialNumber",
                         "Version":"FWRev",
                     },
@@ -119,7 +119,7 @@ class SNIADiskDriveMap(SMISPlugin):
         for instance in results.get("CIM_DiskDrive", []):
             if instance["_sname"] != sysname: continue
             try:
-                instance.update(packages.get(instance["setCimPath"], {}))
+                instance.update(packages.get(instance["snmpindex"], {}))
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
                 om.size = int(om.size) * 1000
@@ -127,7 +127,7 @@ class SNIADiskDriveMap(SMISPlugin):
                 om.setProductKey = MultiArgs(
                     getattr(om, 'setProductKey', '') or 'Unknown', om._manuf)
                 om.setEnclosure = enclosures.get(om._path, 'None')
-                om.setStoragePool = spools.get(om.setCimPath, 'None')
+                om.setStoragePool = spools.get(om.snmpindex, 'None')
             except AttributeError:
                 raise
             rm.append(om)

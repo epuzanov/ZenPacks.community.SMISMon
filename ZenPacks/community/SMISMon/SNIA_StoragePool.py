@@ -12,9 +12,9 @@ __doc__="""SNIA_StoragePool
 
 SNIA_StoragePool is an abstraction of a CIM_StoragePool
 
-$Id: SNIA_StoragePool.py,v 1.0 2011/09/04 22:45:48 egor Exp $"""
+$Id: SNIA_StoragePool.py,v 1.1 2011/09/23 17:02:08 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
@@ -112,7 +112,7 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
 
 
     def usedBytes(self):
-        return self.totalBytes() - self.cacheRRDValue('RemainingManagedSpace', 0)
+        return self.totalBytes() - self.cacheRRDValue('RemainingManagedSpace',0)
 
 
     def totalBytesString(self):
@@ -148,7 +148,8 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
         """
         Return the datapoint name of this StoragePool
         """
-        return ['StoragePool_RemainingManagedSpace']
+        return ['StoragePool_RemainingManagedSpace',
+                'StoragePool_TotalManagedSpace']
 
 
 InitializeClass(SNIA_StoragePool)

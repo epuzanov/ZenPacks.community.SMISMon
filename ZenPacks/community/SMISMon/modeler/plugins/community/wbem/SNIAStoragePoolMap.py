@@ -12,9 +12,9 @@ __doc__="""SNIAStoragePoolMap
 
 SNIAStoragePoolMap maps CIM_StoragePool class to SNIA_StoragePool class.
 
-$Id: SNIAStoragePoolMap.py,v 1.0 2011/09/04 22:52:09 egor Exp $"""
+$Id: SNIAStoragePoolMap.py,v 1.1 2011/09/23 15:59:48 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -36,7 +36,7 @@ class SNIAStoragePoolMap(SMISPlugin):
                     None,
                     self.prepareCS(device),
                     {
-                        "__PATH":"setCimPath",
+                        "__PATH":"snmpindex",
                         "InstanceID":"id",
                         "Name":"caption",
                         "PoolID":"poolId",

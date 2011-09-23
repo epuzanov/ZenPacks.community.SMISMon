@@ -12,9 +12,9 @@ __doc__="""interfaces
 
 describes the form field to the user interface.
 
-$Id: interfaces.py,v 1.0 2011/09/04 22:47:59 egor Exp $"""
+$Id: interfaces.py,v 1.1 2011/09/23 15:56:20 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.Zuul.interfaces import IComponentInfo
 from Products.Zuul.form import schema
@@ -26,6 +26,7 @@ class ISNIA_DiskDriveInfo(IComponentInfo):
     Info adapter for SNIA Disk Drive components.
     """
     status = schema.Text(title=u"Status", readonly=True, group='Overview')
+    name = schema.Text(title=u"Name", readonly=True, group='Details')
     manufacturer = schema.Entity(title=u"Manufacturer", readonly=True,
                                                                 group='Details')
     product = schema.Entity(title=u"Model", readonly=True, group='Details')
@@ -34,10 +35,9 @@ class ISNIA_DiskDriveInfo(IComponentInfo):
     size = schema.Text(title=u"Size", readonly=True, group='Details')
     diskType = schema.Text(title=u"Type", readonly=True, group='Details')
     enclosure = schema.Entity(title=u"Enclosure", readonly=True,group='Details')
-    bay = schema.Int(title=u"Bay", readonly=False, group='Details')
     storagePool = schema.Entity(title=u"Disk Group", readonly=True,
                                                                 group='Details')
-    wwn = schema.Text(title=u"WWN", readonly=True, group='Details')
+    bay = schema.Int(title=u"Bay", readonly=False, group='Details')
 
 class ISNIA_NetworkPortInfo(IComponentInfo):
     """

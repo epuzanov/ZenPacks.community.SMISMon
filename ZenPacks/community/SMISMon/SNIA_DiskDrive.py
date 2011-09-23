@@ -12,9 +12,9 @@ __doc__="""SNIA_DiskDrive
 
 SNIA_DiskDrive is an abstraction of a harddisk.
 
-$Id: SNIA_DiskDrive.py,v 1.0 2011/09/04 22:42:54 egor Exp $"""
+$Id: SNIA_DiskDrive.py,v 1.1 2011/09/23 15:52:54 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Globals import DTMLFile
 from Products.ZenModel.HWComponent import HWComponent
@@ -112,9 +112,9 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
         id.
         """
         for encl in self.hw().enclosures() or []:
-            if encl.getCimPath() != enclid: continue
+            if encl.snmpindex != enclid: continue
             self.enclosure.addRelation(encl)
-	    break
+            break
 
 
     security.declareProtected(ZEN_VIEW, 'getEnclosure')
@@ -132,9 +132,9 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
         given caption.
         """
         for sp in getattr(self.device().os, 'storagepools', (lambda:[]))():
-            if sp.getCimPath() != spid: continue
+            if sp.snmpindex != spid: continue
             self.storagepool.addRelation(sp)
-	    break
+            break
 
 
     security.declareProtected(ZEN_VIEW, 'getStoragePool')
