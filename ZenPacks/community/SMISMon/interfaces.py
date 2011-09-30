@@ -12,9 +12,9 @@ __doc__="""interfaces
 
 describes the form field to the user interface.
 
-$Id: interfaces.py,v 1.1 2011/09/23 15:56:20 egor Exp $"""
+$Id: interfaces.py,v 1.2 2011/09/30 18:40:47 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Products.Zuul.interfaces import IComponentInfo
 from Products.Zuul.form import schema
@@ -111,23 +111,10 @@ class ISNIA_StorageVolumeInfo(IComponentInfo):
     totalBytesString = schema.Text(title=u"Total Bytes", readonly=True,
                                                                 group="Details")
 
-class ISNIA_ConsistencySetInfo(IComponentInfo):
+class ISNIA_ReplicationGroupInfo(IComponentInfo):
     """
-    Info adapter for SNIA DR Group components.
+    Info adapter for SNIA Replication Group components.
     """
     status = schema.Text(title=u"Status", readonly=True, group='Overview')
-    participationType = schema.Text(title=u"Role",readonly=True,group='Details')
-    writeMode = schema.Text(title=u"Write Mode", readonly=True, group='Details')
     storagePool = schema.Entity(title=u"Log Disk Group", readonly=True,
-                                                                group='Details')
-    logDiskReservedCapacity = schema.Entity(title=u"Log Disk Reserved Capacity",
-                                                readonly=True, group='Details')
-    currentPercentLogLevel = schema.Text(title=u"Log Usage", readonly=True,
-                                                                group='Details')
-    remoteCellName = schema.Text(title=u"Remote System", readonly=True,
-                                                                group='Details')
-    hostAccessMode = schema.Text(title=u"Host Access Mode", readonly=True,
-                                                                group='Details')
-    failSafe = schema.Text(title=u"Failsafe", readonly=True, group='Details')
-    suspendMode = schema.Text(title=u"Suspend Mode", readonly=True,
                                                                 group='Details')

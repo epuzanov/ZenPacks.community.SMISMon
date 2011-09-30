@@ -454,21 +454,16 @@ ZC.SNIA_StorageVolumePanel = Ext.extend(ZC.ComponentGridPanel, {
 Ext.reg('SNIA_StorageVolumePanel', ZC.SNIA_StorageVolumePanel);
 ZC.registerName('SNIA_StorageVolume', _t('Virtual Disk'), _t('Virtual Disks'));
 
-ZC.SNIA_ConsistencySetPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.SNIA_ReplicationGroupPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_ConsistencySet',
+            componentType: 'SNIA_ReplicationGroup',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
                 {name: 'status'},
                 {name: 'name'},
-                {name: 'participationType'},
-                {name: 'writeMode'},
-                {name: 'remoteCellName'},
                 {name: 'storagePool'},
-                {name: 'currentPercentLogLevel'},
-                {name: 'usesMonitorAttribute'},
                 {name: 'monitored'},
                 {name: 'monitor'}
             ],
@@ -484,29 +479,11 @@ ZC.SNIA_ConsistencySetPanel = Ext.extend(ZC.ComponentGridPanel, {
                 header: _t('Name'),
                 sortable: true
             },{
-                id: 'participationType',
-                dataIndex: 'participationType',
-                header: _t('Role')
-            },{
-                id: 'writeMode',
-                dataIndex: 'writeMode',
-                header: _t('Write Mode'),
-                width: 150
-            },{
                 id: 'storagePool',
                 dataIndex: 'storagePool',
-                header: _t('Log Disk Group'),
+                header: _t('Disk Group'),
                 sortable: true,
                 renderer: Zenoss.render.default_uid_renderer
-            },{
-                id: 'currentPercentLogLevel',
-                dataIndex: 'currentPercentLogLevel',
-                header: _t('Log Usage'),
-                width: 60
-            },{
-                id: 'remoteCellName',
-                dataIndex: 'remoteCellName',
-                header: _t('Remote System')
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
@@ -519,10 +496,10 @@ ZC.SNIA_ConsistencySetPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_ConsistencySetPanel.superclass.constructor.call(this, config);
+        ZC.SNIA_ReplicationGroupPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_ConsistencySetPanel', ZC.SNIA_ConsistencySetPanel);
-ZC.registerName('SNIA_ConsistencySet', _t('Data Replication'), _t('Data Replication'));
+Ext.reg('SNIA_ReplicationGroupPanel', ZC.SNIA_ReplicationGroupPanel);
+ZC.registerName('SNIA_ReplicationGroup', _t('Replication Group'), _t('Replication Groups'));
 })();

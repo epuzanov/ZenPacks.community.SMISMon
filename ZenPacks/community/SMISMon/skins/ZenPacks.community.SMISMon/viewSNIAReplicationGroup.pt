@@ -24,32 +24,8 @@
       </td>
     </tr>
     <tr>
-      <td class="tableheader" align=left>Role</td>
-      <td class="tablevalues" tal:content="here/participationType">1</td>
-      <td class="tableheader" align=left>Write Mode</td>
-      <td class="tablevalues" tal:content="here/writeMode">1</td>
-    </tr>      
-    <tr>
-      <td class="tableheader" align=left>Remote System</td>
-      <td class="tablevalues" tal:content="here/remoteCellName">1</td>
-      <td class="tableheader" align=left>Host Access Mode</td>
-      <td class="tablevalues" tal:content="here/hostAccessMode">1</td>
-    </tr>      
-    <tr>
-      <td class="tableheader" align=left>Failsafe</td>
-      <td class="tablevalues" tal:content="here/failSafe">1</td>
-      <td class="tableheader" align=left>Suspend Mode</td>
-      <td class="tablevalues" tal:content="here/suspendMode">1</td>
-    </tr>      
-    <tr>
-      <td class="tableheader" align=left>Log Disk Group</td>
+      <td class="tableheader" align=left>Storage Group</td>
       <td class="tablevalues" tal:content="here/getStoragePoolName">1</td>
-      <td class="tableheader" align=left>Log Disk Reserved Capacity</td>
-      <td class="tablevalues" tal:content="here/getLogDiskReservedCapacity">1</td>
-    </tr>      
-    <tr>
-      <td class="tableheader" align=left>Log Usage</td>
-      <td class="tablevalues" tal:content="here/getCurrentPercentLogLevel">1</td>
       <td class="tableheader" align=left>Status</td>
       <td class="tablevalues" tal:content="here/statusString">1</td>
     </tr>      

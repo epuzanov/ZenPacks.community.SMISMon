@@ -12,9 +12,9 @@ __doc__="""SNIAStoragePoolMap
 
 SNIAStoragePoolMap maps CIM_StoragePool class to SNIA_StoragePool class.
 
-$Id: SNIAStoragePoolMap.py,v 1.1 2011/09/23 15:59:48 egor Exp $"""
+$Id: SNIAStoragePoolMap.py,v 1.2 2011/09/30 18:43:45 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -22,7 +22,7 @@ from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
 class SNIAStoragePoolMap(SMISPlugin):
     """Map CIM_StoragePool class to StoragePool"""
 
-    maptype = "SNIAStoragePoolMap"
+    maptype = "StoragePoolMap"
     modname = "ZenPacks.community.SMISMon.SNIA_StoragePool"
     relname = "storagepools"
     compname = "os"
@@ -40,8 +40,19 @@ class SNIAStoragePoolMap(SMISPlugin):
                         "InstanceID":"id",
                         "Name":"caption",
                         "PoolID":"poolId",
+                        "Primordial":"_primordial",
                         "TotalManagedSpace":"totalManagedSpace",
                         "Usage":"usage",
+                    },
+                ),
+            "CIM_HostedStoragePool":
+                (
+                    "SELECT GroupComponent,PartComponent FROM CIM_HostedStoragePool",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "GroupComponent":"gc", # SysName
+                        "PartComponent":"pc", # StoragePool
                     },
                 ),
             }
@@ -50,11 +61,12 @@ class SNIAStoragePoolMap(SMISPlugin):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
-        sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
+        sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
+        localpools = [p["pc"] for p in results.get("CIM_HostedStoragePool",
+                                                    []) if sysname in p["gc"]]
         for instance in results.get("CIM_StoragePool", []):
-            if not instance["id"].startswith(sysname): continue
-            if instance["id"].endswith('.Allocated Disks'): continue
-            if instance["id"].endswith('.Ungrouped Disks'): continue
+            if instance["snmpindex"] not in localpools: continue
+            if instance.get("_primordial", True): continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)

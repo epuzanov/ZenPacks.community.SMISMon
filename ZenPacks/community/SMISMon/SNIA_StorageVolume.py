@@ -12,9 +12,9 @@ __doc__="""SNIA_StorageVolume
 
 SNIA_StorageVolume is an abstraction of a CIM_StorageVolume
 
-$Id: SNIA_StorageVolume.py,v 1.1 2011/09/23 15:54:25 egor Exp $"""
+$Id: SNIA_StorageVolume.py,v 1.2 2011/09/30 18:39:40 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
@@ -61,8 +61,8 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
         ("storagepool", ToOne(ToMany,
             "ZenPacks.community.SMISMon.SNIA_StoragePool",
             "virtualdisks")),
-        ("drgroup", ToOne(ToMany,
-            "ZenPacks.community.SMISMon.SNIA_ConsistencySet",
+        ("collection", ToOne(ToMany,
+            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup",
             "virtualdisks")),
         )
 
@@ -128,19 +128,20 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
         return getattr(self.getStoragePool(), 'caption', 'Unknown')
 
 
-    security.declareProtected(ZEN_CHANGE_DEVICE, 'setDRGroup')
-    def setDRGroup(self, drgid):
+    security.declareProtected(ZEN_CHANGE_DEVICE, 'setReplicationGroup')
+    def setReplicationGroup(self, cid):
         """
-        Set the drgroup relationship to the DR Group specified by the given id.
+        Set the drgroup relationship to the ReplicationGroup specified by the given id
         """
-        drgroup = getattr(self.os().drgroups, str(drgid), None)
-        if drgroup: self.drgroup.addRelation(drgroup)
-        else: log.warn("DR group id:%s not found", drgid)
+        for coll in self.os().collections() or []:
+            if coll.snmpindex != cid: continue
+            self.collection.addRelation(coll)
+            break
 
 
-    security.declareProtected(ZEN_VIEW, 'getDRGroup')
-    def getDRGroup(self):
-        return self.drgroup()
+    security.declareProtected(ZEN_VIEW, 'getReplicationGroup')
+    def getReplicationGroup(self):
+        return self.collection()
 
 
     def totalBytes(self):

@@ -12,9 +12,9 @@ __doc__="""SNIAStorageVolumeMap
 
 SNIAStorageVolumeMap maps CIM_StorageVolume class to SNIA_StorageVolume class.
 
-$Id: SNIAStorageVolumeMap.py,v 1.1 2011/09/23 16:00:17 egor Exp $"""
+$Id: SNIAStorageVolumeMap.py,v 1.2 2011/09/30 18:44:46 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -22,7 +22,7 @@ from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
 class SNIAStorageVolumeMap(SMISPlugin):
     """Map CIM_StorageVolume class to SNIA_StorageVolume"""
 
-    maptype = "SNIAStorageVolumeMap"
+    maptype = "StorageVolumeMap"
     modname = "ZenPacks.community.SMISMon.SNIA_StorageVolume"
     relname = "virtualdisks"
     compname = "os"
@@ -56,6 +56,26 @@ class SNIAStorageVolumeMap(SMISPlugin):
                         "Dependent":"dep",
                     },
                 ),
+            "CIM_OrderedMemberOfCollection":
+                (
+                    "SELECT Collection,Member FROM CIM_OrderedMemberOfCollection",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "Collection":"coll", # Collection
+                        "Member":"me", # StorageVolume
+                    },
+                ),
+            "CIM_ElementStatisticalData":
+                (
+                    "SELECT ManagedElement,Stats FROM CIM_ElementStatisticalData",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "ManagedElement":"me",
+                        "Stats":"stats",
+                    },
+                ),
             }
 
     accessTypes = {
@@ -81,8 +101,12 @@ class SNIAStorageVolumeMap(SMISPlugin):
         sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
         afp = dict([(a["dep"], a["ant"]
                     ) for a in results.get("CIM_AllocatedFromStoragePool", [])])
+        rgroup = dict([(a["me"], a["coll"]
+                    ) for a in results.get("CIM_OrderedMemberOfCollection",[])])
+        stats = dict([(s["me"], s["stats"]
+                    ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_StorageVolume", []):
-            if instance["_sname"] != sysname: continue
+            if sysname not in instance["_sname"]: continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
@@ -92,7 +116,9 @@ class SNIAStorageVolumeMap(SMISPlugin):
                 om.diskType = self.raidLevels.get((om._pr, om._dr), 'unknown')
                 om.accessType = self.accessTypes.get(getattr(om, "accessType",
                                                                 0), "Unknown")
-                om.setStoragePool = afp.get(om.snmpindex)
+                om.setStoragePool = afp.get(om.snmpindex, 'None')
+                om.setReplicationGroup = rgroup.get(om.snmpindex, 'None')
+                om.statindex = stats.get(om.snmpindex, 'None')
             except AttributeError:
                 continue
             rm.append(om)

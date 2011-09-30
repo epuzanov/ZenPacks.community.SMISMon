@@ -1,6 +1,6 @@
 ################################################################################
 #
-# This program is part of the SMISMon Zenpack for Zenoss.
+# This program is part of the SNIAMon Zenpack for Zenoss.
 # Copyright (C) 2011 Egor Puzanov.
 #
 # This program can be used under the GNU General Public License version 2
@@ -8,24 +8,26 @@
 #
 ################################################################################
 
-__doc__="""SNIADeviceMap
+__doc__="""SNIAStorageProcessorMap
 
-SNIADeviceMap maps CIM_ComputerSystem class to hw and os products.
+SNIAStorageProcessorMap maps SNIA_StorageProcessor class to
+SNIAStorageProcessor class.
 
-$Id: SNIADeviceMap.py,v 1.1 2011/09/30 18:41:25 egor Exp $"""
+$Id: SNIA_StorageProcessorMap.py,v 1.0 2011/09/30 18:44:24 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.0 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
+from Products.DataCollector.plugins.DataMaps import MultiArgs
 
-class SNIADeviceMap(SMISPlugin):
-    """SNIADeviceMap maps CIM_ComputerSystem class to hw and
-       os products.
-    """
+class SNIAStorageProcessorMap(SMISPlugin):
+    """Map SNIA_StorageProcessor class to StorageProcessor"""
 
-    maptype = "DeviceMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_Device" 
+    maptype = "ExpansionCardMap"
+    modname = "ZenPacks.community.SNIAMon.SNIAStorageProcessor"
+    relname = "cards"
+    compname = "hw"
 
     def queries(self, device):
         return {
@@ -36,8 +38,7 @@ class SNIADeviceMap(SMISPlugin):
                     self.prepareCS(device),
                     {
                         "__PATH":"snmpindex",
-                        "Description":"snmpDescr",
-                        "Name":"snmpSysName",
+                        "Name":"caption",
                     },
                 ),
             "CIM_ComponentCS":
@@ -56,13 +57,16 @@ class SNIADeviceMap(SMISPlugin):
     def process(self, device, results, log):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
+        rm = self.relMap()
         sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
-        cards = [i.get('pc', '') for i in results.get("CIM_ComponentCS", [])]
-        try:
-            for cs in results.get("CIM_ComputerSystem", [{}]):
-                curSysName = cs.get("snmpindex", "notFound")
-                if curSysName in cards: continue
-                if sysname in curSysName: return [self.objectMap(cs)]
-        except:
-            log.warning("processing error")
-        return
+        cards = [i.get('pc', '') for i in results.get("CIM_ComponentCS", []
+                                                ) if sysname in i.get('gc', '')]
+        for instance in results.get("CIM_ComputerSystem", []):
+            if instance["snmpindex"] not in cards: continue
+            try:
+                om = self.objectMap(instance)
+                om.id = self.prepId(om.caption)
+            except AttributeError:
+                continue
+            rm.append(om)
+        return rm

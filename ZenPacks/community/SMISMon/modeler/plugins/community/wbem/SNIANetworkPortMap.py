@@ -12,9 +12,9 @@ __doc__="""SNIANetworkPortMap
 
 SNIANetworkPortMap maps CIM_NetworkPort class to SNIA_NetworkPort class.
 
-$Id: SNIANetworkPortMap.py,v 1.1 2011/09/23 15:59:29 egor Exp $"""
+$Id: SNIANetworkPortMap.py,v 1.2 2011/09/30 18:42:47 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -23,7 +23,7 @@ from Products.DataCollector.plugins.DataMaps import MultiArgs
 class SNIANetworkPortMap(SMISPlugin):
     """Map CIM_NetworkPort class to NetworkPort"""
 
-    maptype = "SNIANetworkPortMap"
+    maptype = "NetworkPortMap"
     modname = "ZenPacks.community.SMISMon.SNIA_NetworkPort"
     relname = "ports"
     compname = "hw"
@@ -38,7 +38,6 @@ class SNIANetworkPortMap(SMISPlugin):
                     self.prepareCS(device),
                     {
                         "__PATH":"snmpindex",
-                        "CreationClassName":"_ccn",
                         "Description":"description",
                         "DeviceID":"id",
                         "Caption":"interfaceName",
@@ -49,7 +48,27 @@ class SNIANetworkPortMap(SMISPlugin):
                         "PortType":"type",
                         "Speed":"speed",
                         "SupportedMaximumTransmissionUnit":"mtu",
-                        "SystemName":"setController",
+                        "SystemName":"_sname",
+                    },
+                ),
+            "CIM_ComputerSystem":
+                (
+                    "SELECT * FROM CIM_ComputerSystem",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "__PATH":"i",
+                        "Name":"n",
+                    }
+                ),
+            "CIM_ElementStatisticalData":
+                (
+                    "SELECT ManagedElement,Stats FROM CIM_ElementStatisticalData",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "ManagedElement":"me",
+                        "Stats":"stats",
                     },
                 ),
             }
@@ -89,16 +108,20 @@ class SNIANetworkPortMap(SMISPlugin):
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
         sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
+        cs=dict([(c['n'],c['i']) for c in results.get("CIM_ComputerSystem",[])])
+        stats = dict([(s["me"], s["stats"]
+                    ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_NetworkPort", []):
-            if not instance["setController"].startswith(sysname): continue
+            if sysname not in instance["_sname"]: continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
-                if om.setController: om.setController = om.setController.strip()
+                if om._sname: om.setController = cs.get(om._sname, 'None')
                 if om.interfaceName:om.interfaceName=om.interfaceName.split()[-1]
                 om.type = self.portTypes.get(getattr(om, "type", 0), "Unknown")
                 om.linkTechnology = self.linkTypes.get(getattr(om,
                                             "linkTechnology", 0), "Unknown")
+                om.statindex = stats.get(om.snmpindex, 'None')
             except AttributeError:
                 continue
             rm.append(om)

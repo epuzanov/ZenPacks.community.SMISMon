@@ -26,10 +26,26 @@ True
 ${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
 </property>
 <property type="string" id="sql" mode="w" >
-SELECT OperationalStatus FROM CIM_StorageSystem WHERE CreationClassName="${here/snmpOid}" AND Name="${here/snmpSysName}"
+SELECT OperationalStatus FROM ${here/cimInstanceName}
 </property>
 <tomanycont id='datapoints'>
 <object id='OperationalStatus' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='TotalStorageSpace' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='UsedStorageSpace' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
 <property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
 GAUGE
 </property>
@@ -63,6 +79,103 @@ True
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
+</object>
+</tomanycont>
+<tomanycont id='graphDefs'>
+<object id='Utilization' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+bytes
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+True
+</property>
+<property type="int" id="miny" mode="w" >
+0
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<tomanycont id='graphPoints'>
+<object id='TotalStorageSpace' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property type="string" id="color" mode="w" >
+000000
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Total
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1073741824,*
+</property>
+<property type="string" id="dpName" mode="w" >
+ComputerSystem_TotalStorageSpace
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='UsedStorageSpace' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Used
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1073741824,*
+</property>
+<property type="string" id="dpName" mode="w" >
+ComputerSystem_UsedStorageSpace
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
 </object>
 </tomanycont>
 </object>
@@ -105,6 +218,60 @@ True
 </object>
 </tomanycont>
 </object>
+<object id='StatisticalData' module='ZenPacks.community.WBEMDataSource.datasources.WBEMDataSource' class='WBEMDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+WBEM
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="string" id="namespace" mode="w" >
+${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
+</property>
+<property type="string" id="instance" mode="w" >
+SELECT KBytesRead,KBytesWritten,ReadIOs,WriteIOs FROM ${here/cimStatInstanceName}
+</property>
+<tomanycont id='datapoints'>
+<object id='KBytesRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='KBytesWritten' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='ReadIOs' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='WriteIOs' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+</tomanycont>
+</object>
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='OperationalStatus' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
@@ -129,6 +296,183 @@ True
 <property type="int" id="escalateCount" mode="w" >
 0
 </property>
+</object>
+</tomanycont>
+<tomanycont id='graphDefs'>
+<object id='IO Bytes' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+bytes/sec
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+True
+</property>
+<property type="int" id="miny" mode="w" >
+-1
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<tomanycont id='graphPoints'>
+<object id='KBytesRead' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Read
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1024,*
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_KBytesRead
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='KBytesWritten' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Write
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1024,*
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_KBytesWritten
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='IO Requests' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+requests/sec
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+-1
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<tomanycont id='graphPoints'>
+<object id='ReadIOs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Read
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_ReadIOs
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='WriteIOs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Write
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_WriteIOs
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
 </object>
 </tomanycont>
 </object>
@@ -198,72 +542,6 @@ True
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_Fan') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_Fan' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
-<property type="text" id="description" mode="w" >
-Fan template for SMI-S Storage
-</property>
-<property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_Fan
-</property>
-<tomanycont id='datasources'>
-<object id='Fan' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
-<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
-SQL
-</property>
-<property type="boolean" id="enabled" mode="w" >
-True
-</property>
-<property type="int" id="severity" mode="w" >
-3
-</property>
-<property type="int" id="cycletime" mode="w" >
-300
-</property>
-<property type="string" id="cs" mode="w" >
-${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
-</property>
-<property type="string" id="sql" mode="w" >
-SELECT OperationalStatus FROM ${here/cimInstanceName}
-</property>
-<tomanycont id='datapoints'>
-<object id='OperationalStatus' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
-<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
-GAUGE
-</property>
-<property type="boolean" id="isrow" mode="w" >
-True
-</property>
-</object>
-</tomanycont>
-</object>
-</tomanycont>
-<tomanycont id='thresholds'>
-<object id='OperationalStatus' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
-<property type="lines" id="dsnames" mode="w" >
-['Fan_OperationalStatus']
-</property>
-<property type="boolean" id="enabled" mode="w" >
-True
-</property>
-<property type="string" id="minval" mode="w" >
-2
-</property>
-<property type="string" id="maxval" mode="w" >
-2
-</property>
-<property type="string" id="eventClass" mode="w" >
-/Status/SNIA_Fan
-</property>
-<property type="int" id="severity" mode="w" >
-4
-</property>
-<property type="int" id="escalateCount" mode="w" >
-0
-</property>
-</object>
-</tomanycont>
-</object>
 <!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_NetworkPort') -->
 <object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_NetworkPort' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
@@ -320,6 +598,72 @@ True
 </property>
 <property type="string" id="eventClass" mode="w" >
 /Status/SNIA_NetworkPort
+</property>
+<property type="int" id="severity" mode="w" >
+4
+</property>
+<property type="int" id="escalateCount" mode="w" >
+0
+</property>
+</object>
+</tomanycont>
+</object>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_ReplicationGroup') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_ReplicationGroup' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="text" id="description" mode="w" >
+Replication Group template for SMI-S Storage
+</property>
+<property type="string" id="targetPythonClass" mode="w" >
+ZenPacks.community.SMISMon.SNIA_ReplicationGroup
+</property>
+<tomanycont id='datasources'>
+<object id='ReplicationGroup' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+SQL
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="string" id="cs" mode="w" >
+${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
+</property>
+<property type="string" id="sql" mode="w" >
+SELECT OperationalStatus FROM ${here/cimInstanceName}
+</property>
+<tomanycont id='datapoints'>
+<object id='OperationalStatus' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+GAUGE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+</tomanycont>
+</object>
+</tomanycont>
+<tomanycont id='thresholds'>
+<object id='OperationalStatus' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="lines" id="dsnames" mode="w" >
+['ReplicationGroup_OperationalStatus']
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="minval" mode="w" >
+2
+</property>
+<property type="string" id="maxval" mode="w" >
+2
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Status/SNIA_ReplicationGroup
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -509,6 +853,60 @@ Virtual Disk performance template for SMI-S Storage
 ZenPacks.community.SMISMon.SNIA_StorageVolume
 </property>
 <tomanycont id='datasources'>
+<object id='StatisticalData' module='ZenPacks.community.WBEMDataSource.datasources.WBEMDataSource' class='WBEMDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+WBEM
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="string" id="namespace" mode="w" >
+${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
+</property>
+<property type="string" id="instance" mode="w" >
+SELECT KBytesRead,KBytesWritten,ReadIOs,WriteIOs FROM ${here/cimStatInstanceName}
+</property>
+<tomanycont id='datapoints'>
+<object id='KBytesRead' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='KBytesWritten' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='ReadIOs' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+<object id='WriteIOs' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+</tomanycont>
+</object>
 <object id='StorageVolume' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
 <property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
 SQL
@@ -574,12 +972,107 @@ True
 </object>
 </tomanycont>
 <tomanycont id='graphDefs'>
-<object id='Size' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<object id='IO Bytes' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
 <property type="int" id="height" mode="w" >
 100
 </property>
 <property type="int" id="width" mode="w" >
 500
+</property>
+<property type="string" id="units" mode="w" >
+bytes/sec
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+True
+</property>
+<property type="int" id="miny" mode="w" >
+-1
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<tomanycont id='graphPoints'>
+<object id='KBytesRead' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Read
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1024,*
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_KBytesRead
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='KBytesWritten' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Write
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="rpn" mode="w" >
+1024,*
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_KBytesWritten
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='IO Requests' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+requests/sec
 </property>
 <property type="boolean" id="log" mode="w" >
 False
@@ -589,6 +1082,92 @@ False
 </property>
 <property type="int" id="miny" mode="w" >
 -1
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+2
+</property>
+<tomanycont id='graphPoints'>
+<object id='ReadIOs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Read
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_ReadIOs
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+<object id='WriteIOs' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+LINE
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+Write
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+StatisticalData_WriteIOs
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+<object id='Size' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="string" id="units" mode="w" >
+bytes
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+0
 </property>
 <property type="int" id="maxy" mode="w" >
 -1
@@ -629,27 +1208,6 @@ AVERAGE
 </tomanycont>
 </object>
 </tomanycont>
-</object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_ConsistencySet') -->
-<object id='/zport/dmd/Events/Status/SNIA_ConsistencySet' module='Products.ZenEvents.EventClass' class='EventClass'>
-<property type="text" id="transform" mode="w" >
-status = float(evt.message.split()[-1]) 
-state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
-evt.summary = "%s (%s)"%(evt.message, state)
-evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
-if evt.firstTime == evt.lastTime:
-    device.os.drgroups._getOb(evt.component).state = state
-    txnCommit()
-</property>
-<property type="text" id="transform" mode="w" >
-status = float(evt.message.split()[-1]) 
-state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
-evt.summary = "%s (%s)"%(evt.message, state)
-evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
-if evt.firstTime == evt.lastTime:
-    device.os.drgroups._getOb(evt.component).state = state
-    txnCommit()
-</property>
 </object>
 <!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_Device') -->
 <object id='/zport/dmd/Events/Status/SNIA_Device' module='Products.ZenEvents.EventClass' class='EventClass'>
@@ -708,27 +1266,6 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_Fan') -->
-<object id='/zport/dmd/Events/Status/SNIA_Fan' module='Products.ZenEvents.EventClass' class='EventClass'>
-<property type="text" id="transform" mode="w" >
-status = float(evt.message.split()[-1]) 
-state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
-evt.summary = "%s (%s)"%(evt.message, state)
-evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
-if evt.firstTime == evt.lastTime:
-    device.hw.fans._getOb(evt.component).state = state
-    txnCommit()
-</property>
-<property type="text" id="transform" mode="w" >
-status = float(evt.message.split()[-1]) 
-state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
-evt.summary = "%s (%s)"%(evt.message, state)
-evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
-if evt.firstTime == evt.lastTime:
-    device.hw.fans._getOb(evt.component).state = state
-    txnCommit()
-</property>
-</object>
 <!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_NetworkPort') -->
 <object id='/zport/dmd/Events/Status/SNIA_NetworkPort' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
@@ -737,7 +1274,7 @@ state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Fa
 evt.summary = "%s (%s)"%(evt.message, state)
 evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
 if evt.firstTime == evt.lastTime:
-    device.hw.fcports._getOb(evt.component).state = state
+    device.hw.ports._getOb(evt.component).state = state
     txnCommit()
 </property>
 <property type="text" id="transform" mode="w" >
@@ -746,7 +1283,28 @@ state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Fa
 evt.summary = "%s (%s)"%(evt.message, state)
 evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
 if evt.firstTime == evt.lastTime:
-    device.hw.fcports._getOb(evt.component).state = state
+    device.hw.ports._getOb(evt.component).state = state
+    txnCommit()
+</property>
+</object>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_ReplicationGroup') -->
+<object id='/zport/dmd/Events/Status/SNIA_ReplicationGroup' module='Products.ZenEvents.EventClass' class='EventClass'>
+<property type="text" id="transform" mode="w" >
+status = float(evt.message.split()[-1]) 
+state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
+evt.summary = "%s (%s)"%(evt.message, state)
+evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
+if evt.firstTime == evt.lastTime:
+    device.os.collections._getOb(evt.component).state = state
+    txnCommit()
+</property>
+<property type="text" id="transform" mode="w" >
+status = float(evt.message.split()[-1]) 
+state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
+evt.summary = "%s (%s)"%(evt.message, state)
+evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
+if evt.firstTime == evt.lastTime:
+    device.os.collections._getOb(evt.component).state = state
     txnCommit()
 </property>
 </object>

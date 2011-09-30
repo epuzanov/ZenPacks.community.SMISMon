@@ -12,9 +12,9 @@ __doc__="""SNIADiskDriveMap
 
 SNIADiskDriveMap maps CIM_DiskDrive class to HardDisk class.
 
-$Id: SNAIDiskDriveMap.py,v 1.1 2011/09/23 15:57:02 egor Exp $"""
+$Id: SNAIDiskDriveMap.py,v 1.2 2011/09/30 18:41:53 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -23,7 +23,7 @@ from Products.DataCollector.plugins.DataMaps import ObjectMap, MultiArgs
 class SNIADiskDriveMap(SMISPlugin):
     """Map CIM_DiskDrive class to HardDisk"""
 
-    maptype = "SNIAHardDiskMap"
+    maptype = "HardDiskMap"
     modname = "ZenPacks.community.SMISMon.SNIA_DiskDrive"
     relname = "harddisks"
     compname = "hw"
@@ -58,6 +58,16 @@ class SNIADiskDriveMap(SMISPlugin):
                         "Replaceable":"replaceable",
                         "SerialNumber":"serialNumber",
                         "Version":"FWRev",
+                    },
+                ),
+            "CIM_StoragePool":
+                (
+                    "SELECT * FROM CIM_StoragePool",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "__PATH":"_path",
+                        "Primordial":"_primordial",
                     },
                 ),
             "CIM_Realizes":
@@ -100,6 +110,16 @@ class SNIADiskDriveMap(SMISPlugin):
                         "Dependent":"dep", # DiskExtent
                     },
                 ),
+            "CIM_ElementStatisticalData":
+                (
+                    "SELECT ManagedElement,Stats FROM CIM_ElementStatisticalData",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "ManagedElement":"me",
+                        "Stats":"stats",
+                    },
+                ),
             }
 
     def process(self, device, results, log):
@@ -112,22 +132,27 @@ class SNIADiskDriveMap(SMISPlugin):
                                                             "CIM_Realizes",[])])
         enclosures = dict([(a["pc"], a["gc"]) for a in results.get(
                                                     "CIM_PackageInChassis",[])])
+        ppools = [a["_path"] for a in results.get("CIM_StoragePool", []
+                                                ) if a.get("_primordial", True)]
         cc=dict([(a["pc"],a["gc"]) for a in results.get("CIM_ConcreteComponent",
-                                        []) if not a["gc"].endswith(' Disks"')])
+                                        []) if a["gc"] not in ppools])
         spools = dict([(a["ant"], cc.get(a["dep"], {})
                         ) for a in results.get("CIM_MediaPresent", [])])
+        stats = dict([(s["me"], s["stats"]
+                    ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_DiskDrive", []):
-            if instance["_sname"] != sysname: continue
+            if sysname not in instance["_sname"]: continue
             try:
                 instance.update(packages.get(instance["snmpindex"], {}))
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
-                om.size = int(om.size) * 1000
+                om.size = int(getattr(om, 'size', 0)) * 1000
                 om._manuf = getattr(om, '_manuf', '') or 'Unknown'
                 om.setProductKey = MultiArgs(
                     getattr(om, 'setProductKey', '') or 'Unknown', om._manuf)
-                om.setEnclosure = enclosures.get(om._path, 'None')
-                om.setStoragePool = spools.get(om.snmpindex, 'None')
+                om.setEnclosure = enclosures.get(getattr(om, '_path', 'None'))
+                om.setStoragePool = spools.get(getattr(om, 'snmpindex', 'None'))
+                om.statindex = stats.get(om.snmpindex, 'None')
             except AttributeError:
                 raise
             rm.append(om)

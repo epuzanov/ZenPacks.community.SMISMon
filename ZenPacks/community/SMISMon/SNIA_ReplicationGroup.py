@@ -8,11 +8,11 @@
 #
 ################################################################################
 
-__doc__="""SNIA_ConsistencySet
+__doc__="""SNIA_ReplicationGroup
 
-SNIA_ConsistencySet is an abstraction of a CIM_ConsistencySet
+SNIA_ReplicationGroup is an abstraction of a CIM_Collection
 
-$Id: SNIA_ConsistencySet.py,v 1.0 2011/09/04 22:40:34 egor Exp $"""
+$Id: SNIA_ReplicationGroup.py,v 1.0 2011/09/30 18:38:33 egor Exp $"""
 
 __version__ = "$Revision: 1.0 $"[11:-2]
 
@@ -24,13 +24,13 @@ from Products.ZenUtils.Utils import convToUnits
 from Products.ZenUtils.Utils import prepId
 
 import logging
-log = logging.getLogger("zen.SNIA_ConsistencySet")
+log = logging.getLogger("zen.SNIA_ReplicationGroup")
 
 
-def manage_addConsistencySet(context, id, userCreated, REQUEST=None):
-    """make ConsistencySet"""
+def manage_addReplicationGroup(context, id, userCreated, REQUEST=None):
+    """make ReplicationGroup"""
     svid = prepId(id)
-    sv = SNIA_ConsistencySet(svid)
+    sv = SNIA_ReplicationGroup(svid)
     context._setObject(svid, sv)
     sv = context._getOb(svid)
     if userCreated: sv.setUserCreatedFlag()
@@ -38,61 +38,49 @@ def manage_addConsistencySet(context, id, userCreated, REQUEST=None):
         REQUEST['RESPONSE'].redirect(context.absolute_url()+'/manage_main')
     return sv
 
-class SNIA_ConsistencySet(OSComponent, SNIA_ManagedSystemElement):
-    """ConsistencySet object"""
+class SNIA_ReplicationGroup(OSComponent, SNIA_ManagedSystemElement):
+    """ReplicationGroup object"""
 
-    portal_type = meta_type = 'SNIA_ConsistencySet'
+    portal_type = meta_type = 'SNIA_ReplicationGroup'
 
     caption = ""
-    failSafe = ""
-    hostAccessMode = ""
-    participationType = ""
-    remoteCellName = ""
-    suspendMode = ""
-    writeMode = ""
 
     _properties = OSComponent._properties + (
                  {'id':'caption', 'type':'string', 'mode':'w'},
-                 {'id':'failSafe', 'type':'string', 'mode':'w'},
-                 {'id':'hostAccessMode', 'type':'string', 'mode':'w'},
-                 {'id':'participationType', 'type':'string', 'mode':'w'},
-                 {'id':'remoteCellName', 'type':'string', 'mode':'w'},
-                 {'id':'suspendMode', 'type':'string', 'mode':'w'},
-                 {'id':'writeMode', 'type':'string', 'mode':'w'},
                 ) + SNIA_ManagedSystemElement._properties
 
     _relations = OSComponent._relations + (
         ("os", ToOne(ToManyCont,
             "ZenPacks.community.SMISMon.SNIA_Device.SNIA_DeviceOS",
-            "drgroups")),
+            "collections")),
         ("storagepool", ToOne(ToMany,
             "ZenPacks.community.SMISMon.SNIA_StoragePool",
-            "drgroups")),
+            "collections")),
         ("virtualdisks", ToMany(
             ToOne,
             "ZenPacks.community.SMISMon.SNIA_StorageVolume",
-            "drgroup")),
+            "collection")),
         )
 
     factory_type_information = (
         {
-            'id'             : 'ConsistencySet',
-            'meta_type'      : 'ConsistencySet',
+            'id'             : 'ReplicationGroup',
+            'meta_type'      : 'ReplicationGroup',
             'description'    : """Arbitrary device grouping class""",
-            'icon'           : 'ConsistencySet_icon.gif',
+            'icon'           : 'ReplicationGroup_icon.gif',
             'product'        : 'ZenModel',
-            'factory'        : 'manage_addConsistencySet',
-            'immediate_view' : 'viewSNIAConsistencySet',
+            'factory'        : 'manage_addReplicationGroup',
+            'immediate_view' : 'viewSNIAReplicationGroup',
             'actions'        :
             (
                 { 'id'            : 'status'
                 , 'name'          : 'Status'
-                , 'action'        : 'viewSNIAConsistencySet'
+                , 'action'        : 'viewSNIAReplicationGroup'
                 , 'permissions'   : (ZEN_VIEW,)
                 },
                 { 'id'            : 'members'
                 , 'name'          : 'Members'
-                , 'action'        : 'viewSNIAConsistencySetMembers'
+                , 'action'        : 'viewSNIAReplicationGroupMembers'
                 , 'permissions'   : (ZEN_VIEW, )
                 },
                 { 'id'            : 'events'
@@ -125,9 +113,10 @@ class SNIA_ConsistencySet(OSComponent, SNIA_ManagedSystemElement):
         Set the storagepool relationship to the storage pool specified by the given
         id.
         """
-        strpool = getattr(self.os().storagepools, str(spid), None)
-        if strpool: self.storagepool.addRelation(strpool)
-        else: log.warn("storage pool id:%s not found", spid)
+        for sp in self.os().storagepools() or []:
+            if sp.snmpindex != spid: continue
+            self.storagepool.addRelation(sp)
+            break
 
 
     security.declareProtected(ZEN_VIEW, 'getStoragePool')
@@ -139,21 +128,4 @@ class SNIA_ConsistencySet(OSComponent, SNIA_ManagedSystemElement):
     def getStoragePoolName(self):
         return getattr(self.getStoragePool(), 'caption', 'Unknown')
 
-
-    def getCurrentPercentLogLevel(self):
-        return "%s%%"%self.cacheRRDValue('CurrentPercentLogLevel', 0)
-
-
-    def getLogDiskReservedCapacity(self):
-        return convToUnits(self.cacheRRDValue('LogDiskReservedCapacity', 0)*512)
-
-
-    def getRRDNames(self):
-        """
-        Return the datapoint name of this ConsistencySet
-        """
-        return ['ConsistencySet_CurrentPercentLogLevel',
-                'ConsistencySet_LogDiskReservedCapacity',
-                ]
-
-InitializeClass(SNIA_ConsistencySet)
+InitializeClass(SNIA_ReplicationGroup)

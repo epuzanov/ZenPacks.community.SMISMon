@@ -12,9 +12,9 @@ __doc__="""SNIAEnclosureChassisMap
 
 SNIAEnclosureChassisMap maps CIM_Chassis class to SNIA_EnclosureChassis class.
 
-$Id: SNIAEnclosureChassisMap.py,v 1.1 2011/09/23 15:57:27 egor Exp $"""
+$Id: SNIAEnclosureChassisMap.py,v 1.2 2011/09/30 18:42:21 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -23,7 +23,7 @@ from Products.DataCollector.plugins.DataMaps import MultiArgs
 class SNIAEnclosureChassisMap(SMISPlugin):
     """Map CIM_Chassis class to Storage Enclosure"""
 
-    maptype = "SNIAEnclosureChassisMap"
+    maptype = "EnclosureChassisMap"
     modname = "ZenPacks.community.SMISMon.SNIA_EnclosureChassis"
     relname = "enclosures"
     compname = "hw"
@@ -38,10 +38,21 @@ class SNIAEnclosureChassisMap(SMISPlugin):
                     self.prepareCS(device),
                     {
                         "__PATH":"snmpindex",
-                        "Tag":"id",
+                        "ChassisPackageType":"_cptype",
                         "Manufacturer":"_manuf",
                         "Model":"setProductKey",
                         "SerialNumber":"serialNumber",
+                        "Tag":"id",
+                    },
+                ),
+            "CIM_ComputerSystemPackage":
+                (
+                    "SELECT Antecedent,Dependent FROM CIM_ComputerSystemPackage",
+                    None,
+                    self.prepareCS(device),
+                    {
+                        "Antecedent":"ant", # Chassis
+                        "Dependent":"dep", # System
                     },
                 ),
             }
@@ -50,9 +61,12 @@ class SNIAEnclosureChassisMap(SMISPlugin):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
-        sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
+        sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
+        localchassis = [d["ant"] for d in results.get(
+                        "CIM_ComputerSystemPackage",[]) if sysname in d["dep"]]
         for instance in results.get("CIM_Chassis", []):
-            if sysname not in instance.get("id", []): continue
+            if instance["snmpindex"] not in localchassis: continue
+            if str(instance["_cptype"]) != '22': continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)

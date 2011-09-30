@@ -12,9 +12,9 @@ __doc__="""info.py
 
 Representation of SNIA components.
 
-$Id: info.py,v 1.0 2011/09/04 22:47:25 egor Exp $"""
+$Id: info.py,v 1.1 2011/09/30 18:40:13 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from zope.interface import implements
 from Products.Zuul.infos import ProxyProperty
@@ -214,15 +214,8 @@ class SNIA_StorageVolumeInfo(ComponentInfo):
         if not hasattr(self._object, 'statusString'): return 'Unknown'
         else: return self._object.statusString()
 
-class SNIA_ConsistencySetInfo(ComponentInfo):
-    implements(interfaces.ISNIA_ConsistencySetInfo)
-
-    participationType = ProxyProperty("participationType")
-    writeMode = ProxyProperty("writeMode")
-    remoteCellName = ProxyProperty("remoteCellName")
-    hostAccessMode = ProxyProperty("hostAccessMode")
-    failSafe = ProxyProperty("failSafe")
-    suspendMode = ProxyProperty("suspendMode")
+class SNIA_ReplicationGroupInfo(ComponentInfo):
+    implements(interfaces.ISNIA_ReplicationGroupInfo)
 
     @property
     def name(self):
@@ -232,14 +225,6 @@ class SNIA_ConsistencySetInfo(ComponentInfo):
     @info
     def storagePool(self):
         return self._object.getStoragePool()
-
-    @property
-    def currentPercentLogLevel(self):
-        return self._object.getCurrentPercentLogLevel()
-
-    @property
-    def logDiskReservedCapacity(self):
-        return self._object.getLogDiskReservedCapacity()
 
     @property
     def status(self):

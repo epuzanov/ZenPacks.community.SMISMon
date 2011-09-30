@@ -18,7 +18,7 @@ You must first have, or install, Zenoss 2.5.2 or later. This ZenPack was tested 
 ZenPacks
 --------
 
-You must first install `SQLDataSource ZenPack <http://community.zenoss.org/docs/DOC-3409>`_.
+You must first install `SQLDataSource ZenPack <http://community.zenoss.org/docs/DOC-5913>`_.
 
 Installation
 ============
@@ -51,7 +51,7 @@ Usage
 #. You should now have Storage/SMI-S device class.
 #. Click on the SMI-S class and select Details.
 #. Click Configuration Properties on the left.
-#. In the right pane, scroll to the bottom and in the **zSMISConnectionString** field replace **host** and **namespace** properties with the IP address or hostname of the server where SMI-S agent installed and namespace of SMI-S agent. The reason for this is that you'ere going to use the SMI-S agent as a boker to grab data regarding the storages themselves, hence you request data about an storage using it's WWN and that request is fired at the SMI-S agent IP/Hostname.
+#. In the right pane, scroll to the bottom and in the **zSNIAConnectionString** field replace **host** and **namespace** properties with the IP address or hostname of the server where SMI-S agent installed and namespace of SMI-S agent. The reason for this is that you'ere going to use the SMI-S agent as a boker to grab data regarding the storages themselves, hence you request data about an storage using it's WWN and that request is fired at the SMI-S agent IP/Hostname.
 #. In the **zWinPassword** and **zWinUser** add the correct credentials of a user account that can access the server.  (possibly create a new user account in AD and add this account to the SMI-S agent server)
 #. Hit Save.
 #. Click on See All at the top of the left pane.

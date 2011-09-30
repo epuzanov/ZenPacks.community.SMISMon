@@ -23,10 +23,6 @@
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'diskType','Disk Type')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'raidType','Raid Level')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'preferredPath','Preferred Path')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'accessType','Access')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'size','Size')"/>
@@ -41,8 +37,6 @@
                                                     attrs={'target':'_top'})"/>
       </td>
       <td class="tablevalues" tal:content="disk/diskType"/>
-      <td class="tablevalues" tal:content="disk/raidType"/>
-      <td class="tablevalues" tal:content="disk/preferredPath"/>
       <td class="tablevalues" tal:content="disk/accessType"/>
       <td class="tablevalues" tal:content="disk/totalBytesString"/>
       <td tal:define="color disk/statusDot|string:grey" 
@@ -52,7 +46,7 @@
     </tr>
     </tal:block>
     <tr>
-        <td colspan="7" class="tableheader">
+        <td colspan="5" class="tableheader">
         <form metal:use-macro="here/zenTableNavigation/macros/navtool"></form>
         </td>
     </tr>

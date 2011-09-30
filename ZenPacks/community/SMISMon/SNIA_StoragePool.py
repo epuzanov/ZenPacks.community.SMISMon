@@ -12,9 +12,9 @@ __doc__="""SNIA_StoragePool
 
 SNIA_StoragePool is an abstraction of a CIM_StoragePool
 
-$Id: SNIA_StoragePool.py,v 1.1 2011/09/23 17:02:08 egor Exp $"""
+$Id: SNIA_StoragePool.py,v 1.2 2011/09/30 18:39:17 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
@@ -53,9 +53,9 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
             ToOne,
             "ZenPacks.community.SMISMon.SNIA_StorageVolume",
             "storagepool")),
-        ("drgroups", ToMany(
+        ("collections", ToMany(
             ToOne,
-            "ZenPacks.community.SMISMon.SNIA_ConsistencySet",
+            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup",
             "storagepool")),
         )
 

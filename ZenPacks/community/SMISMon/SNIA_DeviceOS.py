@@ -12,9 +12,9 @@ __doc__="""SNIA_DeviceOS
 
 SNIA_DeviceOS is an abstraction of a SMI-S OperatingSystem
 
-$Id: SNIA_DeviceOS.py,v 1.1 2011/09/23 15:52:29 egor Exp $"""
+$Id: SNIA_DeviceOS.py,v 1.2 2011/09/30 18:36:37 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.OperatingSystem import OperatingSystem
@@ -39,8 +39,8 @@ class SNIA_DeviceOS(OperatingSystem):
             "ZenPacks.community.SMISMon.SNIA_StoragePool", "os")),
         ("virtualdisks", ToManyCont(ToOne,
             "ZenPacks.community.SMISMon.SNIA_StorageVolume", "os")),
-        ("drgroups", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_ConsistencySet", "os")),
+        ("collections", ToManyCont(ToOne,
+            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup", "os")),
     )
 
 

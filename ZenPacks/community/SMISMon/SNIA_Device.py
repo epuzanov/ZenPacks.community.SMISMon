@@ -12,9 +12,9 @@ __doc__="""SNIA_Device
 
 SNIA_Device is an abstraction of a SMI-S Device
 
-$Id: SNIA_Device.py,v 1.1 2011/09/23 15:51:27 egor Exp $"""
+$Id: SNIA_Device.py,v 1.2 2011/09/30 18:36:07 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import InitializeClass
 from distutils.version import StrictVersion
@@ -79,6 +79,12 @@ class SNIA_Device(Device):
             )
          },
         )
+
+    def cimInstanceName(self):
+        """
+        Return the CIM Instance Name
+        """
+        return self.snmpindex.replace('.', ' WHERE ', 1).replace(',', ' AND ')
 
 InitializeClass(SNIA_Device)
 
