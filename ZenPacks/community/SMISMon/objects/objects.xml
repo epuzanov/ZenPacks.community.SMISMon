@@ -218,9 +218,9 @@ True
 </object>
 </tomanycont>
 </object>
-<object id='StatisticalData' module='ZenPacks.community.WBEMDataSource.datasources.WBEMDataSource' class='WBEMDataSource'>
+<object id='StatisticalData' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
 <property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
-WBEM
+SQL
 </property>
 <property type="boolean" id="enabled" mode="w" >
 True
@@ -231,10 +231,10 @@ True
 <property type="int" id="cycletime" mode="w" >
 300
 </property>
-<property type="string" id="namespace" mode="w" >
+<property type="string" id="cs" mode="w" >
 ${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
 </property>
-<property type="string" id="instance" mode="w" >
+<property type="string" id="sql" mode="w" >
 SELECT KBytesRead,KBytesWritten,ReadIOs,WriteIOs FROM ${here/cimStatInstanceName}
 </property>
 <tomanycont id='datapoints'>
@@ -853,9 +853,9 @@ Virtual Disk performance template for SMI-S Storage
 ZenPacks.community.SMISMon.SNIA_StorageVolume
 </property>
 <tomanycont id='datasources'>
-<object id='StatisticalData' module='ZenPacks.community.WBEMDataSource.datasources.WBEMDataSource' class='WBEMDataSource'>
+<object id='StatisticalData' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
 <property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
-WBEM
+SQL
 </property>
 <property type="boolean" id="enabled" mode="w" >
 True
@@ -866,10 +866,10 @@ True
 <property type="int" id="cycletime" mode="w" >
 300
 </property>
-<property type="string" id="namespace" mode="w" >
+<property type="string" id="cs" mode="w" >
 ${here/zSNIAConnectionString},user='${here/zWinUser}',password='${here/zWinPassword}'
 </property>
-<property type="string" id="instance" mode="w" >
+<property type="string" id="sql" mode="w" >
 SELECT KBytesRead,KBytesWritten,ReadIOs,WriteIOs FROM ${here/cimStatInstanceName}
 </property>
 <tomanycont id='datapoints'>
