@@ -13,9 +13,9 @@ __doc__="""SNIAReplicationGroupMap
 SNIAReplicationGroupMap maps SNIA_ReplicationGroup class to
 SNIAReplicationGroup class.
 
-$Id: SNIA_ReplicationGroupMap.py,v 1.0 2011/09/30 18:43:17 egor Exp $"""
+$Id: SNIA_ReplicationGroupMap.py,v 1.1 2011/10/03 18:59:27 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -60,7 +60,7 @@ class SNIAReplicationGroupMap(SMISPlugin):
         rm = self.relMap()
         sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
         colls = [c.get('dep', '') for c in results.get("CIM_HostedCollection",[]
-                                                ) if sysname in i.get('ant','')]
+                                                ) if sysname in c.get('ant','')]
         for instance in results.get("CIM_SystemSpecificCollection", []):
             if instance["snmpindex"] not in colls: continue
             try:
