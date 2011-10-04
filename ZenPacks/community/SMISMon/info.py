@@ -12,9 +12,9 @@ __doc__="""info.py
 
 Representation of SNIA components.
 
-$Id: info.py,v 1.1 2011/09/30 18:40:13 egor Exp $"""
+$Id: info.py,v 1.2 2011/10/04 22:09:38 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from zope.interface import implements
 from Products.Zuul.infos import ProxyProperty
@@ -80,7 +80,8 @@ class SNIA_NetworkPortInfo(ComponentInfo):
 
     @property
     def mac(self):
-        return '-'.join([self._object.mac[s*4:s*4+4] for s in range(4)])
+        if not self._object.mac: return ''
+        else: return '-'.join([self._object.mac[s*4:s*4+4] for s in range(4)])
 
     @property
     def name(self):

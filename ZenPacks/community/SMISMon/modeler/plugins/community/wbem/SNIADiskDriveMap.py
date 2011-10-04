@@ -12,9 +12,9 @@ __doc__="""SNIADiskDriveMap
 
 SNIADiskDriveMap maps CIM_DiskDrive class to HardDisk class.
 
-$Id: SNAIDiskDriveMap.py,v 1.3 2011/10/04 19:43:18 egor Exp $"""
+$Id: SNAIDiskDriveMap.py,v 1.4 2011/10/04 22:12:54 egor Exp $"""
 
-__version__ = '$Revision: 1.3 $'[11:-2]
+__version__ = '$Revision: 1.4 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -42,7 +42,6 @@ class SNIADiskDriveMap(SMISPlugin):
                         "MaxMediaSize":"size",
                         "Name":"_name",
                         "SystemName":"_sname",
-                        "Tag":"_tag",
                     },
                 ),
             "CIM_PhysicalPackage":
