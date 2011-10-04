@@ -28,8 +28,10 @@ class ZenPack(ZenPackBase):
                 (
                 'community.wbem.SNIADeviceMap',
                 'community.wbem.SNIAEnclosureChassisMap',
+                'community.wbem.SNIAStorageProcessorMap',
                 'community.wbem.SNIAStoragePoolMap',
-                'community.wbem.SNIAHostNetworkPortMap',
+                'community.wbem.SNIAReplicationGroupMap',
+                'community.wbem.SNIANetworkPortMap',
                 'community.wbem.SNIADiskDriveMap',
                 'community.wbem.SNIAStorageVolumeMap',
                 ),

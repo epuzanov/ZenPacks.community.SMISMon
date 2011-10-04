@@ -66,7 +66,8 @@ class SNIAStoragePoolMap(SMISPlugin):
                                                     []) if sysname in p["gc"]]
         for instance in results.get("CIM_StoragePool", []):
             if instance["snmpindex"] not in localpools: continue
-            if instance.get("_primordial", True): continue
+            if 'rimordial' in instance["snmpindex"]: continue
+            if instance.get("_primordial", False): continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)

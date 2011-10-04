@@ -13,9 +13,9 @@ __doc__="""SNIAReplicationGroupMap
 SNIAReplicationGroupMap maps SNIA_ReplicationGroup class to
 SNIAReplicationGroup class.
 
-$Id: SNIA_ReplicationGroupMap.py,v 1.1 2011/10/03 18:59:27 egor Exp $"""
+$Id: SNIA_ReplicationGroupMap.py,v 1.2 2011/10/04 19:44:50 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -25,7 +25,7 @@ class SNIAReplicationGroupMap(SMISPlugin):
     """Map SNIA_ReplicationGroup class to ReplicationGroup"""
 
     maptype = "ReplicationGroupMap"
-    modname = "ZenPacks.community.SNIAMon.SNIAReplicationGroup"
+    modname = "ZenPacks.community.SMISMon.SNIA_ReplicationGroup"
     relname = "collections"
     compname = "os"
 

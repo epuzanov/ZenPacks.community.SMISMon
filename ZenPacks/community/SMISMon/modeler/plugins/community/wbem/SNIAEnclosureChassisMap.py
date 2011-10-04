@@ -12,9 +12,9 @@ __doc__="""SNIAEnclosureChassisMap
 
 SNIAEnclosureChassisMap maps CIM_Chassis class to SNIA_EnclosureChassis class.
 
-$Id: SNIAEnclosureChassisMap.py,v 1.2 2011/09/30 18:42:21 egor Exp $"""
+$Id: SNIAEnclosureChassisMap.py,v 1.3 2011/10/04 19:44:15 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.3 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -66,7 +66,7 @@ class SNIAEnclosureChassisMap(SMISPlugin):
                         "CIM_ComputerSystemPackage",[]) if sysname in d["dep"]]
         for instance in results.get("CIM_Chassis", []):
             if instance["snmpindex"] not in localchassis: continue
-            if str(instance["_cptype"]) != '22': continue
+#            if str(instance["_cptype"]) != '22': continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)

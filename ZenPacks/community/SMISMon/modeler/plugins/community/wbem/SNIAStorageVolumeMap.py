@@ -12,9 +12,9 @@ __doc__="""SNIAStorageVolumeMap
 
 SNIAStorageVolumeMap maps CIM_StorageVolume class to SNIA_StorageVolume class.
 
-$Id: SNIAStorageVolumeMap.py,v 1.2 2011/09/30 18:44:46 egor Exp $"""
+$Id: SNIAStorageVolumeMap.py,v 1.3 2011/10/04 19:45:56 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.3 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -56,9 +56,9 @@ class SNIAStorageVolumeMap(SMISPlugin):
                         "Dependent":"dep",
                     },
                 ),
-            "CIM_OrderedMemberOfCollection":
+            "CIM_MemberOfCollection":
                 (
-                    "SELECT Collection,Member FROM CIM_OrderedMemberOfCollection",
+                    "SELECT Collection,Member FROM CIM_MemberOfCollection",
                     None,
                     self.prepareCS(device),
                     {
@@ -102,7 +102,7 @@ class SNIAStorageVolumeMap(SMISPlugin):
         afp = dict([(a["dep"], a["ant"]
                     ) for a in results.get("CIM_AllocatedFromStoragePool", [])])
         rgroup = dict([(a["me"], a["coll"]
-                    ) for a in results.get("CIM_OrderedMemberOfCollection",[])])
+                    ) for a in results.get("CIM_MemberOfCollection",[])])
         stats = dict([(s["me"], s["stats"]
                     ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_StorageVolume", []):

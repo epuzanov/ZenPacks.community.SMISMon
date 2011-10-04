@@ -13,9 +13,9 @@ __doc__="""SNIAStorageProcessorMap
 SNIAStorageProcessorMap maps SNIA_StorageProcessor class to
 SNIAStorageProcessor class.
 
-$Id: SNIA_StorageProcessorMap.py,v 1.0 2011/09/30 18:44:24 egor Exp $"""
+$Id: SNIA_StorageProcessorMap.py,v 1.1 2011/10/04 19:45:14 egor Exp $"""
 
-__version__ = '$Revision: 1.0 $'[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -25,7 +25,7 @@ class SNIAStorageProcessorMap(SMISPlugin):
     """Map SNIA_StorageProcessor class to StorageProcessor"""
 
     maptype = "ExpansionCardMap"
-    modname = "ZenPacks.community.SNIAMon.SNIAStorageProcessor"
+    modname = "ZenPacks.community.SMISMon.SNIA_StorageProcessor"
     relname = "cards"
     compname = "hw"
 

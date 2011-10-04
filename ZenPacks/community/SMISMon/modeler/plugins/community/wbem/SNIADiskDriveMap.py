@@ -12,9 +12,9 @@ __doc__="""SNIADiskDriveMap
 
 SNIADiskDriveMap maps CIM_DiskDrive class to HardDisk class.
 
-$Id: SNAIDiskDriveMap.py,v 1.2 2011/09/30 18:41:53 egor Exp $"""
+$Id: SNAIDiskDriveMap.py,v 1.3 2011/10/04 19:43:18 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.3 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -133,7 +133,7 @@ class SNIADiskDriveMap(SMISPlugin):
         enclosures = dict([(a["pc"], a["gc"]) for a in results.get(
                                                     "CIM_PackageInChassis",[])])
         ppools = [a["_path"] for a in results.get("CIM_StoragePool", []
-                                                ) if a.get("_primordial", True)]
+                    ) if a.get("_primordial",True) or "rimordial" in a["_path"]]
         cc=dict([(a["pc"],a["gc"]) for a in results.get("CIM_ConcreteComponent",
                                         []) if a["gc"] not in ppools])
         spools = dict([(a["ant"], cc.get(a["dep"], {})
