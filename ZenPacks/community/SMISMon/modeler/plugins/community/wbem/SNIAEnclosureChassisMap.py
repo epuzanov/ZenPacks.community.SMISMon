@@ -12,9 +12,9 @@ __doc__="""SNIAEnclosureChassisMap
 
 SNIAEnclosureChassisMap maps CIM_Chassis class to SNIA_EnclosureChassis class.
 
-$Id: SNIAEnclosureChassisMap.py,v 1.3 2011/10/04 19:44:15 egor Exp $"""
+$Id: SNIAEnclosureChassisMap.py,v 1.4 2011/10/05 19:06:17 egor Exp $"""
 
-__version__ = '$Revision: 1.3 $'[11:-2]
+__version__ = '$Revision: 1.4 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -45,28 +45,16 @@ class SNIAEnclosureChassisMap(SMISPlugin):
                         "Tag":"id",
                     },
                 ),
-            "CIM_ComputerSystemPackage":
-                (
-                    "SELECT Antecedent,Dependent FROM CIM_ComputerSystemPackage",
-                    None,
-                    self.prepareCS(device),
-                    {
-                        "Antecedent":"ant", # Chassis
-                        "Dependent":"dep", # System
-                    },
-                ),
             }
 
     def process(self, device, results, log):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
-        sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
-        localchassis = [d["ant"] for d in results.get(
-                        "CIM_ComputerSystemPackage",[]) if sysname in d["dep"]]
+        sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
         for instance in results.get("CIM_Chassis", []):
-            if instance["snmpindex"] not in localchassis: continue
-#            if str(instance["_cptype"]) != '22': continue
+            if sysname not in instance["id"]: continue
+            if str(instance["_cptype"] or 22) != "22": continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
