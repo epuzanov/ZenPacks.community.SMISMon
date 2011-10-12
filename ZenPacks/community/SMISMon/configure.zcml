@@ -7,37 +7,37 @@
 
         <adapter factory=".info.SNIA_DiskDriveInfo"
                  for=".SNIA_DiskDrive.SNIA_DiskDrive"
-                 provides=".interfaces.ISNIA_DiskDriveInfo"
+                 provides=".interfaces.IDiskDriveInfo"
                  />
 
         <adapter factory=".info.SNIA_NetworkPortInfo"
                  for=".SNIA_NetworkPort.SNIA_NetworkPort"
-                 provides=".interfaces.ISNIA_NetworkPortInfo"
+                 provides=".interfaces.INetworkPortInfo"
                  />
 
         <adapter factory=".info.SNIA_EnclosureChassisInfo"
                  for=".SNIA_EnclosureChassis.SNIA_EnclosureChassis"
-                 provides=".interfaces.ISNIA_EnclosureChassisInfo"
+                 provides=".interfaces.IEnclosureChassisInfo"
                  />
 
         <adapter factory=".info.SNIA_StoragePoolInfo"
                  for=".SNIA_StoragePool.SNIA_StoragePool"
-                 provides=".interfaces.ISNIA_StoragePoolInfo"
+                 provides=".interfaces.IStoragePoolInfo"
                  />
 
         <adapter factory=".info.SNIA_StorageProcessorInfo"
                  for=".SNIA_StorageProcessor.SNIA_StorageProcessor"
-                 provides=".interfaces.ISNIA_StorageProcessorInfo"
+                 provides=".interfaces.IStorageProcessorInfo"
                  />
 
         <adapter factory=".info.SNIA_StorageVolumeInfo"
                  for=".SNIA_StorageVolume.SNIA_StorageVolume"
-                 provides=".interfaces.ISNIA_StorageVolumeInfo"
+                 provides=".interfaces.IStorageVolumeInfo"
                  />
 
         <adapter factory=".info.SNIA_ReplicationGroupInfo"
                  for=".SNIA_ReplicationGroup.SNIA_ReplicationGroup"
-                 provides=".interfaces.ISNIA_ReplicationGroupInfo"
+                 provides=".interfaces.IReplicationGroupInfo"
                  />
 
         <browser:resourceDirectory
