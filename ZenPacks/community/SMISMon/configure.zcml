@@ -5,38 +5,38 @@
 
     <configure zcml:condition="installed Products.Zuul">
 
-        <adapter factory=".info.SNIA_DiskDriveInfo"
-                 for=".SNIA_DiskDrive.SNIA_DiskDrive"
+        <adapter factory=".info.SNIADiskDriveInfo"
+                 for=".SNIADiskDrive.SNIADiskDrive"
                  provides=".interfaces.IDiskDriveInfo"
                  />
 
-        <adapter factory=".info.SNIA_NetworkPortInfo"
-                 for=".SNIA_NetworkPort.SNIA_NetworkPort"
+        <adapter factory=".info.SNIANetworkPortInfo"
+                 for=".SNIANetworkPort.SNIANetworkPort"
                  provides=".interfaces.INetworkPortInfo"
                  />
 
-        <adapter factory=".info.SNIA_EnclosureChassisInfo"
-                 for=".SNIA_EnclosureChassis.SNIA_EnclosureChassis"
+        <adapter factory=".info.SNIAEnclosureChassisInfo"
+                 for=".SNIAEnclosureChassis.SNIAEnclosureChassis"
                  provides=".interfaces.IEnclosureChassisInfo"
                  />
 
-        <adapter factory=".info.SNIA_StoragePoolInfo"
-                 for=".SNIA_StoragePool.SNIA_StoragePool"
+        <adapter factory=".info.SNIAStoragePoolInfo"
+                 for=".SNIAStoragePool.SNIAStoragePool"
                  provides=".interfaces.IStoragePoolInfo"
                  />
 
-        <adapter factory=".info.SNIA_StorageProcessorInfo"
-                 for=".SNIA_StorageProcessor.SNIA_StorageProcessor"
+        <adapter factory=".info.SNIAStorageProcessorInfo"
+                 for=".SNIAStorageProcessor.SNIAStorageProcessor"
                  provides=".interfaces.IStorageProcessorInfo"
                  />
 
-        <adapter factory=".info.SNIA_StorageVolumeInfo"
-                 for=".SNIA_StorageVolume.SNIA_StorageVolume"
+        <adapter factory=".info.SNIAStorageVolumeInfo"
+                 for=".SNIAStorageVolume.SNIAStorageVolume"
                  provides=".interfaces.IStorageVolumeInfo"
                  />
 
-        <adapter factory=".info.SNIA_ReplicationGroupInfo"
-                 for=".SNIA_ReplicationGroup.SNIA_ReplicationGroup"
+        <adapter factory=".info.SNIAReplicationGroupInfo"
+                 for=".SNIAReplicationGroup.SNIAReplicationGroup"
                  provides=".interfaces.IReplicationGroupInfo"
                  />
 
@@ -47,7 +47,7 @@
 
         <browser:viewlet
                  name="js-smismon"
-                 for=".SNIA_Device.SNIA_Device"
+                 for=".SNIADevice.SNIADevice"
                  paths="/++resource++smismon/SMISMon.js"
                  weight="10"
                  manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"

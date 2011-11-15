@@ -1,11 +1,11 @@
 <tal:block tal:define="
     objects python:[card for card in getattr(here.getDmdRoot('Devices'
-        ).Storage,'SMI-S').getSubComponents(meta_type='SNIA_StorageProcessor')];
+        ).Storage,'SMI-S').getSubComponents(meta_type='StorageProcessor')];
     tableName string: diskdrives;
     batch python:here.ZenTableManager.getBatch(tableName,objects);
     exportFields python:[('getParentDeviceName','Device'),
                         ('slot','Slot'),
-                        ('caption','Name'),
+                        ('viewName','Name'),
                         ('getProductLink', 'Model'),
                         ('serialNumber', 'Serial Number'),
                         ('FWRev','Firmware')];">
@@ -31,7 +31,7 @@
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'slot','Slot')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'caption','Name')"/>
+                            tableName,'viewName','Name')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'getProductLink','Model')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
@@ -45,7 +45,7 @@
         <td class="tablevalues" tal:content="comp/slot"/>
         <td class="tablevalues">
             <a class="tablevalues" tal:attributes="href comp/getPrimaryUrlPath"
-                tal:content="comp/caption">smtp</a>
+                tal:content="comp/viewName">smtp</a>
         </td>
         <td class="tablevalues" tal:content="structure comp/getProductLink"/>
         <td class="tablevalues" tal:content="comp/serialNumber"/>

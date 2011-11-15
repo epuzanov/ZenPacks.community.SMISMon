@@ -8,28 +8,28 @@
 #
 ################################################################################
 
-__doc__="""SNIA_NetworkPort
+__doc__="""SNIANetworkPort
 
-SNIA_NetworkPort is an abstraction of a CIM_NetworkPort
+SNIANetworkPort is an abstraction of a CIM_NetworkPort
 
-$Id: SNIA_NetworkPort.py,v 1.1 2011/09/23 15:54:00 egor Exp $"""
+$Id: SNIANetworkPort.py,v 1.2 2011/11/13 22:55:26 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.HWComponent import HWComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 from Products.ZenUtils.Utils import convToUnits
 
 import logging
-log = logging.getLogger("zen.SNIA_NetworkPort")
+log = logging.getLogger("zen.SNIANetworkPort")
 
-class SNIA_NetworkPort(HWComponent, SNIA_ManagedSystemElement):
+class SNIANetworkPort(HWComponent, CIMManagedSystemElement):
     """SNIA NetworkPort object"""
 
-    portal_type = meta_type = 'SNIA_NetworkPort'
+    portal_type = meta_type = 'NetworkPort'
 
     interfaceName = ""
     fullDuplex = True
@@ -51,15 +51,15 @@ class SNIA_NetworkPort(HWComponent, SNIA_ManagedSystemElement):
                  {'id':'speed', 'type':'int', 'mode':'w'},
                  {'id':'mtu', 'type':'int', 'mode':'w'},
                  {'id':'mac', 'type':'string', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
 
     _relations = HWComponent._relations + (
         ("hw", ToOne(ToManyCont,
-                    "ZenPacks.community.SMISMon.SNIA_DeviceHW",
+                    "ZenPacks.community.SMISMon.SNIADeviceHW",
                     "ports")),
         ("controller", ToOne(ToMany,
-                    "ZenPacks.community.SMISMon.SNIA_StorageProcessor",
+                    "ZenPacks.community.SMISMon.SNIAStorageProcessor",
                     "ports")),
         )
 
@@ -100,9 +100,10 @@ class SNIA_NetworkPort(HWComponent, SNIA_ManagedSystemElement):
         )
 
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
-
     security = ClassSecurityInfo()
+
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
 
 
     security.declareProtected(ZEN_CHANGE_DEVICE, 'setController')
@@ -141,7 +142,11 @@ class SNIA_NetworkPort(HWComponent, SNIA_ManagedSystemElement):
         """
         Return the mac string
         """
+        if len(str(self.mac)) < 15: return ''
         return '-'.join([self.mac[s*4:s*4+4] for s in range(4)])
 
 
-InitializeClass(SNIA_NetworkPort)
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIANetworkPort)

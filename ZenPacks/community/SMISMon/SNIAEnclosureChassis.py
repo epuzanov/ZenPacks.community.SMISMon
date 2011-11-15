@@ -8,51 +8,53 @@
 #
 ################################################################################
 
-__doc__="""SNIA_EnclosureChassis
+__doc__="""SNIAEnclosureChassis
 
-SNIA_EnclosureChassis is an abstraction of a CIM_EnclosureChassis
+SNIAEnclosureChassis is an abstraction of a CIM_EnclosureChassis
 
-$Id: SNIA_EnclosureChassis.py,v 1.0 2011/09/04 22:45:15 egor Exp $"""
+$Id: SNIAEnclosureChassis.py,v 1.1 2011/11/13 22:54:12 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.ZenModel.HWComponent import HWComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 from Products.ZenUtils.Utils import convToUnits
 
 LINKTMPLT='<a href="%s" target="_top"><img src="/zport/dmd/%s_%s_%s.png" /></a>'
 
-class SNIA_EnclosureChassis(HWComponent, SNIA_ManagedSystemElement):
+class SNIAEnclosureChassis(HWComponent, CIMManagedSystemElement):
     """ SNIA EnclosureChassis object"""
 
-    portal_type = meta_type = 'SNIA_EnclosureChassis'
+    portal_type = meta_type = 'EnclosureChassis'
 
     #enclosureLayout = '1 2 3 4 5 6 7 8 9 10 11 12 13 14'
     #diskFF = 'sniadisk_lff_v'
     #enclosureLayout = '1 3 5 7 9,2 4 6 8 10'
     enclosureLayout = '0 0 0 0,0 0 0 0,0 0 0 0'
     diskFF = 'sniadisk_lff_h'
+    caption = ''
 
     _properties = HWComponent._properties + (
                  {'id':'enclosureLayout', 'type':'string', 'mode':'w'},
                  {'id':'diskFF', 'type':'boolean', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                 {'id':'caption', 'type':'string', 'mode':'w'},
+                ) + CIMManagedSystemElement._properties
 
     _relations = HWComponent._relations + (
         ("hw", ToOne(ToManyCont,
-                    "ZenPacks.community.SMISMon.SNIA_DeviceHW",
+                    "ZenPacks.community.SMISMon.SNIADeviceHW",
                     "enclosures")),
         ("harddisks", ToMany(ToOne,
-                    "ZenPacks.community.SMISMon.SNIA_DiskDrive",
+                    "ZenPacks.community.SMISMon.SNIADiskDrive",
                     "enclosure")),
         )
 
     factory_type_information = (
         {
-            'id'             : 'SNIA_EnclosureChassis',
-            'meta_type'      : 'SNIA_EnclosureChassis',
+            'id'             : 'SNIAEnclosureChassis',
+            'meta_type'      : 'SNIAEnclosureChassis',
             'description'    : """Arbitrary device grouping class""",
             'icon'           : 'EnclosureChassis_icon.gif',
             'product'        : 'SMISMon',
@@ -94,6 +96,10 @@ class SNIA_EnclosureChassis(HWComponent, SNIA_ManagedSystemElement):
           },
         )
 
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
+
+
     def isUserCreated(self):
         """
         Return True if layout not detected
@@ -121,6 +127,7 @@ class SNIA_EnclosureChassis(HWComponent, SNIA_ManagedSystemElement):
             '<img src="/zport/dmd/%s_blank.png" />'%self.diskFF) \
             for b in l.split(' ')]) for l in self.enclosureLayout.split(',')]))
 
+
     def getRRDNames(self):
         """
         Return the datapoint name of this EnclosureChassis
@@ -128,4 +135,7 @@ class SNIA_EnclosureChassis(HWComponent, SNIA_ManagedSystemElement):
         return ['EnclosureChassis_OperationalStatus']
 
 
-InitializeClass(SNIA_EnclosureChassis)
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIAEnclosureChassis)

@@ -13,19 +13,19 @@ __doc__="""SNIAStorageProcessorMap
 SNIAStorageProcessorMap maps SNIA_StorageProcessor class to
 SNIAStorageProcessor class.
 
-$Id: SNIA_StorageProcessorMap.py,v 1.1 2011/10/04 19:45:14 egor Exp $"""
+$Id: SNIAStorageProcessorMap.py,v 1.3 2011/11/13 23:17:44 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.3 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
 from Products.DataCollector.plugins.DataMaps import MultiArgs
 
 class SNIAStorageProcessorMap(SMISPlugin):
-    """Map SNIA_StorageProcessor class to StorageProcessor"""
+    """Map SNIAStorageProcessor class to StorageProcessor"""
 
     maptype = "ExpansionCardMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_StorageProcessor"
+    modname = "ZenPacks.community.SMISMon.SNIAStorageProcessor"
     relname = "cards"
     compname = "hw"
 
@@ -38,7 +38,7 @@ class SNIAStorageProcessorMap(SMISPlugin):
                     self.prepareCS(device),
                     {
                         "__PATH":"snmpindex",
-                        "Name":"caption",
+                        "ElementName":"caption",
                     },
                 ),
             "CIM_ComponentCS":
@@ -60,7 +60,7 @@ class SNIAStorageProcessorMap(SMISPlugin):
         rm = self.relMap()
         sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
         cards = [i.get('pc', '') for i in results.get("CIM_ComponentCS", []
-                                                ) if sysname in i.get('gc', '')]
+                                            ) if sysname in str(i.get('gc',''))]
         for instance in results.get("CIM_ComputerSystem", []):
             if instance["snmpindex"] not in cards: continue
             try:

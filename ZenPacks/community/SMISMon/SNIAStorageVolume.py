@@ -8,28 +8,28 @@
 #
 ################################################################################
 
-__doc__="""SNIA_StorageVolume
+__doc__="""SNIAStorageVolume
 
-SNIA_StorageVolume is an abstraction of a CIM_StorageVolume
+SNIAStorageVolume is an abstraction of a CIM_StorageVolume
 
-$Id: SNIA_StorageVolume.py,v 1.2 2011/09/30 18:39:40 egor Exp $"""
+$Id: SNIAStorageVolume.py,v 1.3 2011/11/13 23:00:31 egor Exp $"""
 
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = "$Revision: 1.3 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
 from Products.ZenUtils.Utils import convToUnits
 from Products.ZenUtils.Utils import prepId
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 import logging
-log = logging.getLogger("zen.SNIA_StorageVolume")
+log = logging.getLogger("zen.SNIAStorageVolume")
 
 
 def manage_addStorageVolume(context, id, userCreated, REQUEST=None):
     """make StorageVolume"""
     svid = prepId(id)
-    sv = SNIA_StorageVolume(svid)
+    sv = SNIAStorageVolume(svid)
     context._setObject(svid, sv)
     sv = context._getOb(svid)
     if userCreated: sv.setUserCreatedFlag()
@@ -37,10 +37,10 @@ def manage_addStorageVolume(context, id, userCreated, REQUEST=None):
         REQUEST['RESPONSE'].redirect(context.absolute_url()+'/manage_main')
     return sv
 
-class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
+class SNIAStorageVolume(OSComponent, CIMManagedSystemElement):
     """HPStorageVolume object"""
 
-    portal_type = meta_type = 'SNIA_StorageVolume'
+    portal_type = meta_type = 'StorageVolume'
 
     accessType = ""
     caption = ""
@@ -52,17 +52,17 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
                  {'id':'caption', 'type':'string', 'mode':'w'},
                  {'id':'blockSize', 'type':'int', 'mode':'w'},
                  {'id':'diskType', 'type':'string', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
     _relations = OSComponent._relations + (
         ("os", ToOne(ToManyCont,
-            "ZenPacks.community.SMISMon.SNIA_Device.SNIA_DeviceOS",
+            "ZenPacks.community.SMISMon.SNIADevice.SNIADeviceOS",
             "virtualdisks")),
         ("storagepool", ToOne(ToMany,
-            "ZenPacks.community.SMISMon.SNIA_StoragePool",
+            "ZenPacks.community.SMISMon.SNIAStoragePool",
             "virtualdisks")),
         ("collection", ToOne(ToMany,
-            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup",
+            "ZenPacks.community.SMISMon.SNIAReplicationGroup",
             "virtualdisks")),
         )
 
@@ -101,9 +101,11 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
           },
         )
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
 
     security = ClassSecurityInfo()
+
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
 
 
     security.declareProtected(ZEN_CHANGE_DEVICE, 'setStoragePool')
@@ -125,7 +127,7 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
 
     security.declareProtected(ZEN_VIEW, 'getStoragePoolName')
     def getStoragePoolName(self):
-        return getattr(self.getStoragePool(), 'caption', 'Unknown')
+        return getattr(self.getStoragePool(), 'poolId', 'Unknown')
 
 
     security.declareProtected(ZEN_CHANGE_DEVICE, 'setReplicationGroup')
@@ -165,4 +167,7 @@ class SNIA_StorageVolume(OSComponent, SNIA_ManagedSystemElement):
         return ['StorageVolume_NumberOfBlocks']
 
 
-InitializeClass(SNIA_StorageVolume)
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIAStorageVolume)

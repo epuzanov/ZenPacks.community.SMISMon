@@ -8,20 +8,20 @@
 #
 ################################################################################
 
-__doc__="""SNIA_DeviceOS
+__doc__="""SNIADeviceOS
 
-SNIA_DeviceOS is an abstraction of a SMI-S OperatingSystem
+SNIADeviceOS is an abstraction of a SMI-S OperatingSystem
 
-$Id: SNIA_DeviceOS.py,v 1.2 2011/09/30 18:36:37 egor Exp $"""
+$Id: SNIADeviceOS.py,v 1.3 2011/11/13 22:52:32 egor Exp $"""
 
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = "$Revision: 1.3 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.OperatingSystem import OperatingSystem
 from Products.ZenModel.Software import Software
 from Products.ZenRelations.RelSchema import ToManyCont, ToOne
 
-class SNIA_DeviceOS(OperatingSystem):
+class SNIADeviceOS(OperatingSystem):
 
     # Define new relationships
     _relations = Software._relations + (
@@ -36,11 +36,11 @@ class SNIA_DeviceOS(OperatingSystem):
             "Products.ZenModel.FileSystem", "os")),
         ("software", ToManyCont(ToOne, "Products.ZenModel.Software", "os")),
         ("storagepools", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_StoragePool", "os")),
+            "ZenPacks.community.SMISMon.SNIAStoragePool", "os")),
         ("virtualdisks", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_StorageVolume", "os")),
+            "ZenPacks.community.SMISMon.SNIAStorageVolume", "os")),
         ("collections", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup", "os")),
+            "ZenPacks.community.SMISMon.SNIAReplicationGroup", "os")),
     )
 
 
@@ -65,4 +65,4 @@ class SNIA_DeviceOS(OperatingSystem):
                                 # but doens't have os relationship
 
 
-InitializeClass(SNIA_DeviceOS)
+InitializeClass(SNIADeviceOS)

@@ -8,19 +8,19 @@
 #
 ################################################################################
 
-__doc__="""SNIA_ManagedSystemElement
+__doc__="""CIMManagedSystemElement
 
-SNIA_ManagedSystemElement is an abstraction for SNIA_ManagedSystemElement class.
+CIMManagedSystemElement is an abstraction for CIM_ManagedSystemElement class.
 
-$Id: SNIA_ManagedSystemElement.py,v 1.1 2011/09/23 15:53:31 egor Exp $"""
+$Id: CIMManagedSystemElement.py,v 1.2 2011/11/13 22:54:53 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.ZenModel.ZenossSecurity import *
 
-class SNIA_ManagedSystemElement(object):
+class CIMManagedSystemElement(object):
 
     snmpindex = ''
     statindex = ''
@@ -95,11 +95,8 @@ class SNIA_ManagedSystemElement(object):
         """
         Return the RRD Templates list
         """
-        cn = self.cimClassName()
-        templates = [self.__class__.__name__]
-        if cn and cn != self.__class__.__name__:
-            templates.append(cn)
-        for i in range(len(templates)):
-            templ = self.getRRDTemplateByName(templates.pop(0))
-            if templ: templates.append(templ)
-        return templates
+        templates = (self.cimClassName(),self.__class__.__name__,self.meta_type)
+        for template in templates:
+            templ = self.getRRDTemplateByName(template)
+            if templ: return [templ]
+        return []

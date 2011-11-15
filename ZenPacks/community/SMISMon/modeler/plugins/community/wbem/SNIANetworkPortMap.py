@@ -10,11 +10,11 @@
 
 __doc__="""SNIANetworkPortMap
 
-SNIANetworkPortMap maps CIM_NetworkPort class to SNIA_NetworkPort class.
+SNIANetworkPortMap maps CIM_NetworkPort class to SNIANetworkPort class.
 
-$Id: SNIANetworkPortMap.py,v 1.2 2011/09/30 18:42:47 egor Exp $"""
+$Id: SNIANetworkPortMap.py,v 1.4 2011/11/13 23:14:42 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.4 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -24,7 +24,7 @@ class SNIANetworkPortMap(SMISPlugin):
     """Map CIM_NetworkPort class to NetworkPort"""
 
     maptype = "NetworkPortMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_NetworkPort"
+    modname = "ZenPacks.community.SMISMon.SNIANetworkPort"
     relname = "ports"
     compname = "hw"
 
@@ -40,7 +40,7 @@ class SNIANetworkPortMap(SMISPlugin):
                         "__PATH":"snmpindex",
                         "Description":"description",
                         "DeviceID":"id",
-                        "Caption":"interfaceName",
+                        "ElementName":"interfaceName",
                         "FullDuplex":"fullDuplex",
                         "LinkTechnology":"linkTechnology",
                         "NetworkAddresses":"networkAddresses",
@@ -103,25 +103,28 @@ class SNIANetworkPortMap(SMISPlugin):
         94: "SAS",
     }
 
+
     def process(self, device, results, log):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
         sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
-        cs=dict([(c['n'],c['i']) for c in results.get("CIM_ComputerSystem",[])])
+        controllers = dict([(c['n'],c['i']
+                    ) for c in results.get("CIM_ComputerSystem",[])])
         stats = dict([(s["me"], s["stats"]
                     ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_NetworkPort", []):
-            if sysname not in instance["_sname"]: continue
+            if sysname not in str(instance.get("_sname","")): continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
-                if om._sname: om.setController = cs.get(om._sname, 'None')
-                if om.interfaceName:om.interfaceName=om.interfaceName.split()[-1]
+                if om._sname: om.setController=controllers.get(om._sname,'None')
+                if om.interfaceName:
+                    om.interfaceName = om.interfaceName.split()[-1]
                 om.type = self.portTypes.get(getattr(om, "type", 0), "Unknown")
                 om.linkTechnology = self.linkTypes.get(getattr(om,
                                             "linkTechnology", 0), "Unknown")
-                om.statindex = stats.get(om.snmpindex, 'None')
+                om.statindex = stats.get(om.snmpindex, '')
             except AttributeError:
                 continue
             rm.append(om)

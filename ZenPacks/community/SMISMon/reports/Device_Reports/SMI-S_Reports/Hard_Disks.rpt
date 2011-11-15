@@ -1,13 +1,13 @@
 <tal:block tal:define="
     objects python:[disk for disk in getattr(here.getDmdRoot('Devices'
-        ).Storage, 'SMI-S').getSubComponents(meta_type='SNIA_DiskDrive')];
+        ).Storage, 'SMI-S').getSubComponents(meta_type='DiskDrive')];
     tableName string: diskdrives;
     batch python:here.ZenTableManager.getBatch(tableName,objects);
     exportFields python:[('getParentDeviceName','Device'),
                         ('getEnclosureName', 'Enclosure'),
                         ('bay','Bay'),
                         ('getStoragePoolName', 'Disk Group'),
-                        ('description','Disk'),
+                        ('viewName','Disk'),
                         ('getProductLink', 'Model'),
                         ('sizeString','Size'),
                         ('diskType','Type'),
@@ -39,7 +39,7 @@
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'getStoragePoolName','Disk Group')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'description','Disk')"/>
+                            tableName,'viewName','Disk')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'getProductLink','Model')"/>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
@@ -59,7 +59,7 @@
         <td class="tablevalues" tal:content="comp/getStoragePoolName"/>
         <td class="tablevalues">
             <a class="tablevalues" tal:attributes="href comp/getPrimaryUrlPath"
-                tal:content="comp/description">smtp</a>
+                tal:content="comp/viewName">smtp</a>
         </td>
         <td class="tablevalues" tal:content="structure comp/getProductLink"/>
         <td class="tablevalues" tal:content="comp/sizeString"/>

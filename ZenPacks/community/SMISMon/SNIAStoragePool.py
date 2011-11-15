@@ -8,24 +8,24 @@
 #
 ################################################################################
 
-__doc__="""SNIA_StoragePool
+__doc__="""SNIAStoragePool
 
-SNIA_StoragePool is an abstraction of a CIM_StoragePool
+SNIAStoragePool is an abstraction of a CIM_StoragePool
 
-$Id: SNIA_StoragePool.py,v 1.2 2011/09/30 18:39:17 egor Exp $"""
+$Id: SNIAStoragePool.py,v 1.3 2011/11/13 22:58:51 egor Exp $"""
 
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = "$Revision: 1.3 $"[11:-2]
 
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 from Products.ZenUtils.Utils import convToUnits
 
-class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
+class SNIAStoragePool(OSComponent, CIMManagedSystemElement):
     """SNIA StoragePool object"""
 
-    portal_type = meta_type = 'SNIA_StoragePool'
+    portal_type = meta_type = 'StoragePool'
 
     caption = ""
     totalManagedSpace = 0
@@ -37,25 +37,25 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
                  {'id':'totalManagedSpace', 'type':'int', 'mode':'w'},
                  {'id':'poolId', 'type':'string', 'mode':'w'},
                  {'id':'usage', 'type':'int', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
 
     _relations = OSComponent._relations + (
         ("os", ToOne(
             ToManyCont,
-            "ZenPacks.community.SMISMon.SNIA_Device.SNIA_DeviceOS",
+            "ZenPacks.community.SMISMon.SNIADevice.SNIADeviceOS",
             "storagepools")),
         ("harddisks", ToMany(
             ToOne,
-            "ZenPacks.community.SMISMon.SNIA_DiskDrive",
+            "ZenPacks.community.SMISMon.SNIADiskDrive",
             "storagepool")),
         ("virtualdisks", ToMany(
             ToOne,
-            "ZenPacks.community.SMISMon.SNIA_StorageVolume",
+            "ZenPacks.community.SMISMon.SNIAStorageVolume",
             "storagepool")),
         ("collections", ToMany(
             ToOne,
-            "ZenPacks.community.SMISMon.SNIA_ReplicationGroup",
+            "ZenPacks.community.SMISMon.SNIAReplicationGroup",
             "storagepool")),
         )
 
@@ -104,7 +104,8 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
           },
         )
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
 
 
     def totalBytes(self):
@@ -152,4 +153,7 @@ class SNIA_StoragePool(OSComponent, SNIA_ManagedSystemElement):
                 'StoragePool_TotalManagedSpace']
 
 
-InitializeClass(SNIA_StoragePool)
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIAStoragePool)

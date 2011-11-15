@@ -25,10 +25,10 @@ function render_link(ob) {
     }
 }
 
-ZC.SNIA_DiskDrivePanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.DiskDrivePanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_DiskDrive',
+            componentType: 'DiskDrive',
             autoExpandColumn: 'product',
             fields: [
                 {name: 'uid'},
@@ -107,17 +107,17 @@ ZC.SNIA_DiskDrivePanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_DiskDrivePanel.superclass.constructor.call(this, config);
+        ZC.DiskDrivePanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_DiskDrivePanel', ZC.SNIA_DiskDrivePanel);
-ZC.registerName('SNIA_DiskDrive', _t('Hard Disk'), _t('Hard Disks'));
+Ext.reg('DiskDrivePanel', ZC.DiskDrivePanel);
+ZC.registerName('DiskDrive', _t('Hard Disk'), _t('Hard Disks'));
 
-ZC.SNIA_NetworkPortPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.NetworkPortPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_NetworkPort',
+            componentType: 'NetworkPort',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
@@ -185,17 +185,17 @@ ZC.SNIA_NetworkPortPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_NetworkPortPanel.superclass.constructor.call(this, config);
+        ZC.NetworkPortPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_NetworkPortPanel', ZC.SNIA_NetworkPortPanel);
-ZC.registerName('SNIA_NetworkPort', _t('Port'), _t('Ports'));
+Ext.reg('NetworkPortPanel', ZC.NetworkPortPanel);
+ZC.registerName('NetworkPort', _t('FC Port'), _t('FC Ports'));
 
-ZC.SNIA_EnclosureChassisPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.EnclosureChassisPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_EnclosureChassis',
+            componentType: 'EnclosureChassis',
             autoExpandColumn: 'product',
             fields: [
                 {name: 'uid'},
@@ -242,17 +242,17 @@ ZC.SNIA_EnclosureChassisPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_EnclosureChassisPanel.superclass.constructor.call(this, config);
+        ZC.EnclosureChassisPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_EnclosureChassisPanel', ZC.SNIA_EnclosureChassisPanel);
-ZC.registerName('SNIA_EnclosureChassis', _t('Storage Enclosure'), _t('Storage Enclosures'));
+Ext.reg('EnclosureChassisPanel', ZC.EnclosureChassisPanel);
+ZC.registerName('EnclosureChassis', _t('Storage Enclosure'), _t('Storage Enclosures'));
 
-ZC.SNIA_StoragePoolPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.StoragePoolPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_StoragePool',
+            componentType: 'StoragePool',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
@@ -310,17 +310,17 @@ ZC.SNIA_StoragePoolPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_StoragePoolPanel.superclass.constructor.call(this, config);
+        ZC.StoragePoolPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_StoragePoolPanel', ZC.SNIA_StoragePoolPanel);
-ZC.registerName('SNIA_StoragePool', _t('Disk Group'), _t('Disk Groups'));
+Ext.reg('StoragePoolPanel', ZC.StoragePoolPanel);
+ZC.registerName('StoragePool', _t('Disk Group'), _t('Disk Groups'));
 
-ZC.SNIA_StorageProcessorPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.StorageProcessorPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_StorageProcessor',
+            componentType: 'StorageProcessor',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
@@ -382,17 +382,17 @@ ZC.SNIA_StorageProcessorPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_StorageProcessorPanel.superclass.constructor.call(this, config);
+        ZC.StorageProcessorPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_StorageProcessorPanel', ZC.SNIA_StorageProcessorPanel);
-ZC.registerName('SNIA_StorageProcessor', _t('Controller'), _t('Controllers'));
+Ext.reg('StorageProcessorPanel', ZC.StorageProcessorPanel);
+ZC.registerName('StorageProcessor', _t('Storage Controller'), _t('Storage Controllers'));
 
-ZC.SNIA_StorageVolumePanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.StorageVolumePanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_StorageVolume',
+            componentType: 'StorageVolume',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
@@ -447,23 +447,22 @@ ZC.SNIA_StorageVolumePanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_StorageVolumePanel.superclass.constructor.call(this, config);
+        ZC.StorageVolumePanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_StorageVolumePanel', ZC.SNIA_StorageVolumePanel);
-ZC.registerName('SNIA_StorageVolume', _t('Virtual Disk'), _t('Virtual Disks'));
+Ext.reg('StorageVolumePanel', ZC.StorageVolumePanel);
+ZC.registerName('StorageVolume', _t('Virtual Disk'), _t('Virtual Disks'));
 
-ZC.SNIA_ReplicationGroupPanel = Ext.extend(ZC.ComponentGridPanel, {
+ZC.ReplicationGroupPanel = Ext.extend(ZC.ComponentGridPanel, {
     constructor: function(config) {
         config = Ext.applyIf(config||{}, {
-            componentType: 'SNIA_ReplicationGroup',
+            componentType: 'ReplicationGroup',
             fields: [
                 {name: 'uid'},
                 {name: 'severity'},
                 {name: 'status'},
                 {name: 'name'},
-                {name: 'storagePool'},
                 {name: 'monitored'},
                 {name: 'monitor'}
             ],
@@ -479,12 +478,6 @@ ZC.SNIA_ReplicationGroupPanel = Ext.extend(ZC.ComponentGridPanel, {
                 header: _t('Name'),
                 sortable: true
             },{
-                id: 'storagePool',
-                dataIndex: 'storagePool',
-                header: _t('Disk Group'),
-                sortable: true,
-                renderer: Zenoss.render.default_uid_renderer
-            },{
                 id: 'monitored',
                 dataIndex: 'monitored',
                 header: _t('Monitored'),
@@ -496,10 +489,10 @@ ZC.SNIA_ReplicationGroupPanel = Ext.extend(ZC.ComponentGridPanel, {
                 width: 60
             }]
         });
-        ZC.SNIA_ReplicationGroupPanel.superclass.constructor.call(this, config);
+        ZC.ReplicationGroupPanel.superclass.constructor.call(this, config);
     }
 });
 
-Ext.reg('SNIA_ReplicationGroupPanel', ZC.SNIA_ReplicationGroupPanel);
-ZC.registerName('SNIA_ReplicationGroup', _t('Replication Group'), _t('Replication Groups'));
+Ext.reg('ReplicationGroupPanel', ZC.ReplicationGroupPanel);
+ZC.registerName('ReplicationGroup', _t('Replication Group'), _t('Replication Groups'));
 })();

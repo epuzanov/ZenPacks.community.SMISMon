@@ -8,13 +8,13 @@
 #
 ################################################################################
 
-__doc__="""SNIA_Device
+__doc__="""SNIADevice
 
-SNIA_Device is an abstraction of a SMI-S Device
+SNIADevice is an abstraction of a SMI-S Device
 
-$Id: SNIA_Device.py,v 1.2 2011/09/30 18:36:07 egor Exp $"""
+$Id: SNIADevice.py,v 1.3 2011/11/13 22:51:45 egor Exp $"""
 
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = "$Revision: 1.3 $"[11:-2]
 
 from Globals import InitializeClass
 from distutils.version import StrictVersion
@@ -23,18 +23,18 @@ from Products.ZenModel.Device import Device
 from Products.ZenModel.ManagedEntity import ManagedEntity
 from Products.ZenModel.ZenStatus import ZenStatus
 from Products.ZenModel.ZVersion import VERSION
-from ZenPacks.community.SMISMon.SNIA_DeviceHW import SNIA_DeviceHW
-from ZenPacks.community.SMISMon.SNIA_DeviceOS import SNIA_DeviceOS
+from ZenPacks.community.SMISMon.SNIADeviceHW import SNIADeviceHW
+from ZenPacks.community.SMISMon.SNIADeviceOS import SNIADeviceOS
 
 IMM_VIEW = StrictVersion(VERSION) < '2.6' and 'deviceStatus' or 'devicedetail'
 
-class SNIA_Device(Device):
+class SNIADevice(Device):
 
     def __init__(self, id, buildRelations=True):
         ManagedEntity.__init__(self, id, buildRelations=buildRelations)
-        os = SNIA_DeviceOS()
+        os = SNIADeviceOS()
         self._setObject(os.id, os)
-        hw = SNIA_DeviceHW()
+        hw = SNIADeviceHW()
         self._setObject(hw.id, hw)
         self._lastPollSnmpUpTime = ZenStatus(0)
         self._snmpLastCollection = 0
@@ -86,5 +86,5 @@ class SNIA_Device(Device):
         """
         return self.snmpindex.replace('.', ' WHERE ', 1).replace(',', ' AND ')
 
-InitializeClass(SNIA_Device)
+InitializeClass(SNIADevice)
 

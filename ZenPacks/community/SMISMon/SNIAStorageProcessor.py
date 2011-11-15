@@ -8,22 +8,22 @@
 #
 ################################################################################
 
-__doc__="""SNIA_StorageProcessor
+__doc__="""SNIAStorageProcessor
 
-SNIA_StorageProcessor is an abstraction of a CIM_StorageProcessor
+SNIAStorageProcessor is an abstraction of a CIM_StorageProcessor
 
-$Id: SNIA_StorageProcessor.py,v 1.0 2011/09/04 22:46:19 egor Exp $"""
+$Id: SNIAStorageProcessor.py,v 1.1 2011/11/13 22:59:47 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.ZenModel.ExpansionCard import ExpansionCard
 from Products.ZenRelations.RelSchema import ToOne, ToMany
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
-class SNIA_StorageProcessor(ExpansionCard, SNIA_ManagedSystemElement):
+class SNIAStorageProcessor(ExpansionCard, CIMManagedSystemElement):
     """SNIA StorageProcessor object"""
 
-    portal_type = meta_type = 'SNIA_StorageProcessor'
+    portal_type = meta_type = 'StorageProcessor'
 
 
     caption = ""
@@ -34,18 +34,18 @@ class SNIA_StorageProcessor(ExpansionCard, SNIA_ManagedSystemElement):
     _properties = ExpansionCard._properties + (
                  {'id':'caption', 'type':'string', 'mode':'w'},
                  {'id':'FWRev', 'type':'string', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
     _relations = ExpansionCard._relations + (
         ("ports", ToMany(ToOne,
-                    "ZenPacks.community.SMISMon.SNIA_NetworkPort",
+                    "ZenPacks.community.SMISMon.SNIANetworkPort",
                     "controller")),
         )
 
     factory_type_information = (
         {
-            'id'             : 'SNIA_StorageProcessor',
-            'meta_type'      : 'SNIA_StorageProcessor',
+            'id'             : 'SNIAStorageProcessor',
+            'meta_type'      : 'SNIAStorageProcessor',
             'description'    : """Arbitrary device grouping class""",
             'icon'           : 'StorageProcessor_icon.gif',
             'product'        : 'SMISMon',
@@ -82,9 +82,11 @@ class SNIA_StorageProcessor(ExpansionCard, SNIA_ManagedSystemElement):
           },
         )
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
 
     security = ClassSecurityInfo()
+
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
 
 
     security.declareProtected(ZEN_VIEW, 'getManufacturerLink')
@@ -140,4 +142,7 @@ class SNIA_StorageProcessor(ExpansionCard, SNIA_ManagedSystemElement):
         return ['StorageProcessor_cpuUpTime']
 
 
-InitializeClass(SNIA_StorageProcessor)
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIAStorageProcessor)

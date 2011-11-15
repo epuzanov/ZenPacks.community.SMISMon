@@ -14,7 +14,7 @@
 <tal:block metal:fill-slot="zentablecontents">
     <tr>
       <td class="tableheader" align=left>Name</td>
-      <td class="tablevalues" tal:content="here/caption">sd0</td>
+      <td class="tablevalues" tal:content="here/viewName">sd0</td>
       <td class="tableheader">Monitor</td>
       <td class="tablevalues">
         <select class="tablevalues"  name="monitor:boolean">
@@ -24,8 +24,6 @@
       </td>
     </tr>
     <tr>
-      <td class="tableheader" align=left>Storage Group</td>
-      <td class="tablevalues" tal:content="here/getStoragePoolName">1</td>
       <td class="tableheader" align=left>Status</td>
       <td class="tablevalues" tal:content="here/statusString">1</td>
     </tr>      

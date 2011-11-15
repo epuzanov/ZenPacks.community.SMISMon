@@ -12,9 +12,9 @@ __doc__="""SNIADeviceMap
 
 SNIADeviceMap maps CIM_ComputerSystem class to hw and os products.
 
-$Id: SNIADeviceMap.py,v 1.1 2011/09/30 18:41:25 egor Exp $"""
+$Id: SNIADeviceMap.py,v 1.2 2011/11/13 23:10:22 egor Exp $"""
 
-__version__ = '$Revision: 1.1 $'[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -25,7 +25,7 @@ class SNIADeviceMap(SMISPlugin):
     """
 
     maptype = "DeviceMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_Device" 
+    modname = "ZenPacks.community.SMISMon.SNIADevice" 
 
     def queries(self, device):
         return {

@@ -10,20 +10,20 @@
 
 __doc__="""SNIAStorageVolumeMap
 
-SNIAStorageVolumeMap maps CIM_StorageVolume class to SNIA_StorageVolume class.
+SNIAStorageVolumeMap maps CIM_StorageVolume class to SNIAStorageVolume class.
 
-$Id: SNIAStorageVolumeMap.py,v 1.3 2011/10/04 19:45:56 egor Exp $"""
+$Id: SNIAStorageVolumeMap.py,v 1.5 2011/11/13 23:18:17 egor Exp $"""
 
-__version__ = '$Revision: 1.3 $'[11:-2]
+__version__ = '$Revision: 1.5 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
 
 class SNIAStorageVolumeMap(SMISPlugin):
-    """Map CIM_StorageVolume class to SNIA_StorageVolume"""
+    """Map CIM_StorageVolume class to SNIAStorageVolume"""
 
     maptype = "StorageVolumeMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_StorageVolume"
+    modname = "ZenPacks.community.SMISMon.SNIAStorageVolume"
     relname = "virtualdisks"
     compname = "os"
 
@@ -38,11 +38,11 @@ class SNIAStorageVolumeMap(SMISPlugin):
                     {
                         "__PATH":"snmpindex",
                         "Access":"accessType",
-                        "Caption":"caption",
                         "BlockSize":"blockSize",
-                        'DataRedundancy':'_dr',
-                        'DeviceID':'id',
-                        'PackageRedundancy':'_pr',
+                        "DataRedundancy":"_dr",
+                        "DeviceID":"id",
+                        "ElementName":"caption",
+                        "PackageRedundancy":"_pr",
                         "SystemName":"_sname",
                     },
                 ),
@@ -94,15 +94,16 @@ class SNIAStorageVolumeMap(SMISPlugin):
         (2, 2): 'RAID5+1',
     }
 
+
     def process(self, device, results, log):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
         sysname = getattr(device,"snmpSysName","") or device.id.replace("-","")
-        afp = dict([(a["dep"], a["ant"]
-                    ) for a in results.get("CIM_AllocatedFromStoragePool", [])])
-        rgroup = dict([(a["me"], a["coll"]
+        rgroups = dict([(a["me"], a["coll"]
                     ) for a in results.get("CIM_MemberOfCollection",[])])
+        storagepools = dict([(a["dep"], a["ant"]
+                    ) for a in results.get("CIM_AllocatedFromStoragePool", [])])
         stats = dict([(s["me"], s["stats"]
                     ) for s in results.get("CIM_ElementStatisticalData", [])])
         for instance in results.get("CIM_StorageVolume", []):
@@ -110,15 +111,16 @@ class SNIAStorageVolumeMap(SMISPlugin):
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
-                om._pr = int(getattr(om, '_pr', 0) or 0)
-                om._dr = int(getattr(om, '_dr', 0) or 0)
-                if om._dr > 2: om._dr = 2
-                om.diskType = self.raidLevels.get((om._pr, om._dr), 'unknown')
+                if not hasattr(om, 'diskType'):
+                    om._pr = int(getattr(om, '_pr', 0) or 0)
+                    om._dr = int(getattr(om, '_dr', 0) or 0)
+                    if om._dr > 2: om._dr = 2
+                    om.diskType=self.raidLevels.get((om._pr, om._dr), 'unknown')
                 om.accessType = self.accessTypes.get(getattr(om, "accessType",
                                                                 0), "Unknown")
-                om.setStoragePool = afp.get(om.snmpindex, 'None')
-                om.setReplicationGroup = rgroup.get(om.snmpindex, 'None')
-                om.statindex = stats.get(om.snmpindex, 'None')
+                om.setStoragePool = storagepools.get(om.snmpindex, '')
+                om.setReplicationGroup = rgroups.get(om.snmpindex, '')
+                om.statindex = stats.get(om.snmpindex, '')
             except AttributeError:
                 continue
             rm.append(om)

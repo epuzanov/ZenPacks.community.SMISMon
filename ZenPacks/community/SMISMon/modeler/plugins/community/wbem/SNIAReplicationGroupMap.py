@@ -13,19 +13,19 @@ __doc__="""SNIAReplicationGroupMap
 SNIAReplicationGroupMap maps SNIA_ReplicationGroup class to
 SNIAReplicationGroup class.
 
-$Id: SNIA_ReplicationGroupMap.py,v 1.2 2011/10/04 19:44:50 egor Exp $"""
+$Id: SNIAReplicationGroupMap.py,v 1.4 2011/11/13 23:15:36 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.4 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
 from Products.DataCollector.plugins.DataMaps import MultiArgs
 
 class SNIAReplicationGroupMap(SMISPlugin):
-    """Map SNIA_ReplicationGroup class to ReplicationGroup"""
+    """Map SNIAReplicationGroup class to ReplicationGroup"""
 
     maptype = "ReplicationGroupMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_ReplicationGroup"
+    modname = "ZenPacks.community.SMISMon.SNIAReplicationGroup"
     relname = "collections"
     compname = "os"
 
@@ -59,10 +59,10 @@ class SNIAReplicationGroupMap(SMISPlugin):
         log.info("processing %s for device %s", self.name(), device.id)
         rm = self.relMap()
         sysname = getattr(device,"snmpindex","") or device.id.replace("-","")
-        colls = [c.get('dep', '') for c in results.get("CIM_HostedCollection",[]
-                                                ) if sysname in c.get('ant','')]
+        collections = [c.get('dep', '') for c in results.get(
+                    "CIM_HostedCollection", []) if sysname in c.get('ant', '')]
         for instance in results.get("CIM_SystemSpecificCollection", []):
-            if instance["snmpindex"] not in colls: continue
+            if instance["snmpindex"] not in collections: continue
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.caption)

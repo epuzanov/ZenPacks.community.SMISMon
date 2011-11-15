@@ -8,29 +8,29 @@
 #
 ################################################################################
 
-__doc__="""SNIA_ReplicationGroup
+__doc__="""SNIAReplicationGroup
 
-SNIA_ReplicationGroup is an abstraction of a CIM_Collection
+SNIAReplicationGroup is an abstraction of a CIM_Collection
 
-$Id: SNIA_ReplicationGroup.py,v 1.0 2011/09/30 18:38:33 egor Exp $"""
+$Id: SNIAReplicationGroup.py,v 1.1 2011/11/13 22:53:44 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.ZenModel.OSComponent import *
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 from Products.ZenUtils.Utils import convToUnits
 from Products.ZenUtils.Utils import prepId
 
 import logging
-log = logging.getLogger("zen.SNIA_ReplicationGroup")
+log = logging.getLogger("zen.SNIAReplicationGroup")
 
 
 def manage_addReplicationGroup(context, id, userCreated, REQUEST=None):
     """make ReplicationGroup"""
     svid = prepId(id)
-    sv = SNIA_ReplicationGroup(svid)
+    sv = SNIAReplicationGroup(svid)
     context._setObject(svid, sv)
     sv = context._getOb(svid)
     if userCreated: sv.setUserCreatedFlag()
@@ -38,27 +38,27 @@ def manage_addReplicationGroup(context, id, userCreated, REQUEST=None):
         REQUEST['RESPONSE'].redirect(context.absolute_url()+'/manage_main')
     return sv
 
-class SNIA_ReplicationGroup(OSComponent, SNIA_ManagedSystemElement):
+class SNIAReplicationGroup(OSComponent, CIMManagedSystemElement):
     """ReplicationGroup object"""
 
-    portal_type = meta_type = 'SNIA_ReplicationGroup'
+    portal_type = meta_type = 'ReplicationGroup'
 
     caption = ""
 
     _properties = OSComponent._properties + (
                  {'id':'caption', 'type':'string', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
     _relations = OSComponent._relations + (
         ("os", ToOne(ToManyCont,
-            "ZenPacks.community.SMISMon.SNIA_Device.SNIA_DeviceOS",
+            "ZenPacks.community.SMISMon.SNIADevice.SNIADeviceOS",
             "collections")),
         ("storagepool", ToOne(ToMany,
-            "ZenPacks.community.SMISMon.SNIA_StoragePool",
+            "ZenPacks.community.SMISMon.SNIAStoragePool",
             "collections")),
         ("virtualdisks", ToMany(
             ToOne,
-            "ZenPacks.community.SMISMon.SNIA_StorageVolume",
+            "ZenPacks.community.SMISMon.SNIAStorageVolume",
             "collection")),
         )
 
@@ -102,9 +102,11 @@ class SNIA_ReplicationGroup(OSComponent, SNIA_ManagedSystemElement):
           },
         )
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
 
     security = ClassSecurityInfo()
+
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
 
 
     security.declareProtected(ZEN_CHANGE_DEVICE, 'setStoragePool')
@@ -128,4 +130,8 @@ class SNIA_ReplicationGroup(OSComponent, SNIA_ManagedSystemElement):
     def getStoragePoolName(self):
         return getattr(self.getStoragePool(), 'caption', 'Unknown')
 
-InitializeClass(SNIA_ReplicationGroup)
+
+    def viewName(self): return self.caption
+
+
+InitializeClass(SNIAReplicationGroup)

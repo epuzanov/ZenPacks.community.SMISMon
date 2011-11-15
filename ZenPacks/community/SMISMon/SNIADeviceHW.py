@@ -8,35 +8,35 @@
 #
 ################################################################################
 
-__doc__="""SNIA_DeviceHW
+__doc__="""SNIADeviceHW
 
-SNIA_DeviceHW is an abstraction of a SMI-S Hardware
+SNIADeviceHW is an abstraction of a SMI-S Hardware
 
-$Id: SNIA_DeviceHW.py,v 1.1 2011/09/23 15:52:04 egor Exp $"""
+$Id: SNIADeviceHW.py,v 1.2 2011/11/13 22:51:16 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import InitializeClass
 from Products.ZenModel.DeviceHW import DeviceHW
 from Products.ZenModel.Hardware import Hardware
 from Products.ZenRelations.RelSchema import ToManyCont, ToOne
 
-class SNIA_DeviceHW(DeviceHW):
+class SNIADeviceHW(DeviceHW):
 
     # Define new relationships
     _relations = Hardware._relations + (
         ("cpus", ToManyCont(ToOne, "Products.ZenModel.CPU", "hw")),
         ("cards", ToManyCont(ToOne, "Products.ZenModel.ExpansionCard", "hw")),
-        ("harddisks", ToManyCont(ToOne, "ZenPacks.community.SMISMon.SNIA_DiskDrive", "hw")),
+        ("harddisks", ToManyCont(ToOne, "ZenPacks.community.SMISMon.SNIADiskDrive", "hw")),
         ("fans", ToManyCont(ToOne, "Products.ZenModel.Fan", "hw")),
         ("powersupplies", ToManyCont(ToOne, "Products.ZenModel.PowerSupply",
             "hw")),
         ("temperaturesensors", ToManyCont(ToOne,
             "Products.ZenModel.TemperatureSensor", "hw")),
         ("enclosures", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_EnclosureChassis", "hw")),
+            "ZenPacks.community.SMISMon.SNIAEnclosureChassis", "hw")),
         ("ports", ToManyCont(ToOne,
-            "ZenPacks.community.SMISMon.SNIA_NetworkPort", "hw")),
+            "ZenPacks.community.SMISMon.SNIANetworkPort", "hw")),
     )
 
     factory_type_information = (
@@ -56,4 +56,4 @@ class SNIA_DeviceHW(DeviceHW):
         id = "hw"
         Hardware.__init__(self, id)
 
-InitializeClass(SNIA_DeviceHW)
+InitializeClass(SNIADeviceHW)

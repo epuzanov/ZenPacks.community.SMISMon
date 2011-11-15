@@ -12,38 +12,38 @@ __doc__="""info.py
 
 Representation of SNIA components.
 
-$Id: info.py,v 1.3 2011/10/12 22:02:10 egor Exp $"""
+$Id: info.py,v 1.4 2011/11/13 23:02:47 egor Exp $"""
 
-__version__ = "$Revision: 1.3 $"[11:-2]
+__version__ = "$Revision: 1.4 $"[11:-2]
 
 from zope.interface import implements
 from ZenPacks.community.SMISMon import interfaces
 from ZenPacks.community.SMISMon.infos import *
 
 
-class SNIA_DiskDriveInfo(DiskDriveInfo):
+class SNIADiskDriveInfo(DiskDriveInfo):
     implements(interfaces.IDiskDriveInfo)
 
 
-class SNIA_NetworkPortInfo(NetworkPortInfo):
+class SNIANetworkPortInfo(NetworkPortInfo):
     implements(interfaces.INetworkPortInfo)
 
 
-class SNIA_EnclosureChassisInfo(EnclosureChassisInfo):
+class SNIAEnclosureChassisInfo(EnclosureChassisInfo):
     implements(interfaces.IEnclosureChassisInfo)
 
 
-class SNIA_StoragePoolInfo(StoragePoolInfo):
+class SNIAStoragePoolInfo(StoragePoolInfo):
     implements(interfaces.IStoragePoolInfo)
 
 
-class SNIA_StorageProcessorInfo(StorageProcessorInfo):
+class SNIAStorageProcessorInfo(StorageProcessorInfo):
     implements(interfaces.IStorageProcessorInfo)
 
 
-class SNIA_StorageVolumeInfo(StorageVolumeInfo):
+class SNIAStorageVolumeInfo(StorageVolumeInfo):
     implements(interfaces.IStorageVolumeInfo)
 
 
-class SNIA_ReplicationGroupInfo(ReplicationGroupInfo):
+class SNIAReplicationGroupInfo(ReplicationGroupInfo):
     implements(interfaces.IReplicationGroupInfo)

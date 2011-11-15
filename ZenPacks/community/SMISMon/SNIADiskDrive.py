@@ -8,34 +8,33 @@
 #
 ################################################################################
 
-__doc__="""SNIA_DiskDrive
+__doc__="""SNIADiskDrive
 
-SNIA_DiskDrive is an abstraction of a harddisk.
+SNIADiskDrive is an abstraction of a harddisk.
 
-$Id: SNIA_DiskDrive.py,v 1.1 2011/09/23 15:52:54 egor Exp $"""
+$Id: SNIADiskDrive.py,v 1.2 2011/11/13 22:53:15 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Globals import DTMLFile
 from Products.ZenModel.HWComponent import HWComponent
 from Products.ZenRelations.RelSchema import ToOne, ToMany, ToManyCont
 from Products.ZenUtils.Utils import convToUnits
-from ZenPacks.community.SMISMon.SNIA_ManagedSystemElement import *
+from ZenPacks.community.SMISMon.CIMManagedSystemElement import *
 
 import logging
-log = logging.getLogger("zen.SNIA_DiskDrive")
+log = logging.getLogger("zen.SNIADiskDrive")
 
 addHardDisk = DTMLFile('dtml/addHardDisk', globals())
 
-class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
+class SNIADiskDrive(HWComponent, CIMManagedSystemElement):
     """SNIA DiskDrive object"""
 
-    portal_type = meta_type = 'SNIA_DiskDrive'
+    portal_type = meta_type = 'DiskDrive'
 
     manage_editHardDiskForm = DTMLFile('dtml/manageEditHardDisk', globals())
 
-    description = ""
-    hostresindex = 0
+    caption = ""
     size = 0
     diskType = "sas"
     replaceable = True
@@ -43,24 +42,23 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
     FWRev = ""
 
     _properties = HWComponent._properties + (
-                 {'id':'description', 'type':'string', 'mode':'w'},
-                 {'id':'hostresindex', 'type':'int', 'mode':'w'},
+                 {'id':'caption', 'type':'string', 'mode':'w'},
                  {'id':'diskType', 'type':'string', 'mode':'w'},
                  {'id':'replaceable', 'type':'boolean', 'mode':'w'},
                  {'id':'size', 'type':'int', 'mode':'w'},
                  {'id':'bay', 'type':'int', 'mode':'w'},
                  {'id':'FWRev', 'type':'string', 'mode':'w'},
-                ) + SNIA_ManagedSystemElement._properties
+                ) + CIMManagedSystemElement._properties
 
     _relations = HWComponent._relations + (
         ("hw", ToOne(ToManyCont,
-                            "ZenPacks.community.SMISMon.SNIA_DeviceHW",
+                            "ZenPacks.community.SMISMon.SNIADeviceHW",
                             "harddisks")),
         ("enclosure", ToOne(ToMany,
-                            "ZenPacks.community.SMISMon.SNIA_EnclosureChassis",
+                            "ZenPacks.community.SMISMon.SNIAEnclosureChassis",
                             "harddisks")),
         ("storagepool", ToOne(ToMany,
-                            "ZenPacks.community.SMISMon.SNIA_StoragePool",
+                            "ZenPacks.community.SMISMon.SNIAStoragePool",
                             "harddisks")),
         )
 
@@ -101,9 +99,11 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
         )
 
 
-    getRRDTemplates = SNIA_ManagedSystemElement.getRRDTemplates
-
     security = ClassSecurityInfo()
+
+
+    getRRDTemplates = CIMManagedSystemElement.getRRDTemplates
+
 
     security.declareProtected(ZEN_CHANGE_DEVICE, 'setEnclosure')
     def setEnclosure(self, enclid):
@@ -149,7 +149,7 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
         """
         Return enclosure id
         """
-        return getattr(self.getEnclosure(), 'id', 'Unknown')
+        return getattr(self.getEnclosure(), 'caption', 'Unknown')
 
 
     def getStoragePoolName(self):
@@ -223,7 +223,7 @@ class SNIA_DiskDrive(HWComponent, SNIA_ManagedSystemElement):
         return self.replaceable and 'Hot Swappable' or 'Non-Hot Swappable'
 
 
-    def viewName(self): return self.description
+    def viewName(self): return self.caption
 
 
-InitializeClass(SNIA_DiskDrive)
+InitializeClass(SNIADiskDrive)

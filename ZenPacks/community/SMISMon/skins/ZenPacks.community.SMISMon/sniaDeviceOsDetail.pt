@@ -121,7 +121,7 @@
     objects here/os/storagepools/objectValuesAll;
     tabletitle string:Disk Groups;
     batch python:here.ZenTableManager.getBatch(tableName,objects,
-                                            sortedHeader='caption');">
+                                            sortedHeader='viewName');">
 <tal:block metal:use-macro="here/zenuimacros/macros/zentable">
 
 <tal:block metal:fill-slot="zentablecontents">
@@ -129,7 +129,7 @@
 <!-- BEGIN TABLE CONTENTS -->
     <tr tal:condition="objects">
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'caption','Name')">Name
+                            tableName,'viewName','Name')">Name
         </th>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'totalDisks','Total Disks')">Total Disks
@@ -159,8 +159,8 @@
         
       <td class="tablevalues">
           <tal:block 
-           tal:content="structure python:stpool.urlLink(text=stpool.caption,
-            attrs={'class':'tablevalues'})"/>
+           tal:content="structure python:stpool.urlLink(text=stpool.viewName(),
+                                            attrs={'class':'tablevalues'})"/>
       </td>
       <td class="tablevalues"
         tal:content="stpool/totalDisks">1
@@ -202,10 +202,10 @@
 
 <tal:block metal:define-macro="replicationGroupsList"
     tal:define="tableName string:replicationGroupsList;
-    objects here/os/rgroups/objectValuesAll;
+    objects here/os/collections/objectValuesAll;
     tabletitle string:Replication Groups;
     batch python:here.ZenTableManager.getBatch(tableName,objects,
-                                            sortedHeader='caption');">
+                                            sortedHeader='viewName');">
 <tal:block metal:use-macro="here/zenuimacros/macros/zentable">
 
 <tal:block metal:fill-slot="zentablecontents">
@@ -213,10 +213,7 @@
 <!-- BEGIN TABLE CONTENTS -->
     <tr tal:condition="objects">
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'caption','Name')">Name
-        </th>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'getStoragePoolName','Log Disk Group')">getStoragePoolName
+                            tableName,'viewName','Name')">Name
         </th>
         <th class="tableheader" align="center" width="60">Status</th>
     </tr>
@@ -231,11 +228,8 @@
         
       <td class="tablevalues">
           <tal:block 
-           tal:content="structure python:rgroup.urlLink(text=rgroup.caption,
-            attrs={'class':'tablevalues'})"/>
-      </td>
-      <td class="tablevalues"
-        tal:content="rgroup/getStoragePoolName">EVA
+           tal:content="structure python:rgroup.urlLink(text=rgroup.viewName(),
+                                            attrs={'class':'tablevalues'})"/>
       </td>
       <td tal:define="color rgroup/statusDot|string:grey" 
         class="tablevalues" style="text-align:center;">
@@ -265,7 +259,7 @@
     objects here/os/virtualdisks/objectValuesAll;
     tabletitle string:Virtual Disks;
     batch python:here.ZenTableManager.getBatch(tableName,objects,
-                                            sortedHeader='caption');">
+                                            sortedHeader='viewName');">
 <tal:block metal:use-macro="here/zenuimacros/macros/zentable">
 
 <tal:block metal:fill-slot="zentablecontents">
@@ -273,7 +267,10 @@
 <!-- BEGIN TABLE CONTENTS -->
     <tr tal:condition="objects">
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
-                            tableName,'caption','Name')">Name
+                            tableName,'viewName','Name')">Name
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'getStoragePoolName','Disk Group')">Name
         </th>
         <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
                             tableName,'diskType','Disk Type')">Disk Type
@@ -297,8 +294,11 @@
         
       <td class="tablevalues">
           <tal:block 
-           tal:content="structure python:vdisk.urlLink(text=vdisk.caption,
-            attrs={'class':'tablevalues'})"/>
+           tal:content="structure python:vdisk.urlLink(text=vdisk.viewName(),
+                                            attrs={'class':'tablevalues'})"/>
+      </td>
+      <td class="tablevalues"
+        tal:content="vdisk/getStoragePoolName">normal
       </td>
       <td class="tablevalues"
         tal:content="vdisk/diskType">normal
@@ -316,7 +316,7 @@
     </tr>
     </tal:block>
     <tr>
-        <td colspan="7" class="tableheader" align='center'>
+        <td colspan="6" class="tableheader" align='center'>
         <form metal:use-macro="here/zenTableNavigation/macros/navtool"></form>
         </td>
     </tr>

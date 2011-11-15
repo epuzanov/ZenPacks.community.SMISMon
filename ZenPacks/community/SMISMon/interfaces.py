@@ -12,9 +12,9 @@ __doc__="""interfaces
 
 describes the form field to the user interface.
 
-$Id: interfaces.py,v 1.3 2011/10/12 22:29:19 egor Exp $"""
+$Id: interfaces.py,v 1.4 2011/11/13 23:08:52 egor Exp $"""
 
-__version__ = "$Revision: 1.3 $"[11:-2]
+__version__ = "$Revision: 1.4 $"[11:-2]
 
 from Products.Zuul.interfaces import IComponentInfo
 from Products.Zuul.form import schema
@@ -116,5 +116,3 @@ class IReplicationGroupInfo(IComponentInfo):
     Info adapter for SNIA Replication Group components.
     """
     status = schema.Text(title=u"Status", readonly=True, group='Overview')
-    storagePool = schema.Entity(title=u"Log Disk Group", readonly=True,
-                                                                group='Details')

@@ -71,7 +71,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_Device
+/Status/SNIADevice
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -179,13 +179,13 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_DiskDrive') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_DiskDrive' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'DiskDrive') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/DiskDrive' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-DiskDrive performance template for SMI-S Storage
+SNIADiskDrive performance template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_DiskDrive
+ZenPacks.community.SMISMon.SNIADiskDrive
 </property>
 <tomanycont id='datasources'>
 <object id='DiskDrive' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -288,7 +288,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_DiskDrive
+/Status/SNIADiskDrive
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -476,13 +476,13 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_EnclosureChassis') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_EnclosureChassis' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'EnclosureChassis') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/EnclosureChassis' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-Disk Enclosure template for SMI-S Storage
+SNIAEnclosureChassis template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_EnclosureChassis
+ZenPacks.community.SMISMon.SNIAEnclosureChassis
 </property>
 <tomanycont id='datasources'>
 <object id='EnclosureChassis' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -531,7 +531,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_EnclosureChassis
+/Status/SNIAEnclosureChassis
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -542,13 +542,13 @@ True
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_NetworkPort') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_NetworkPort' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'NetworkPort') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/NetworkPort' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-Port template for SMI-S Storage
+SNIANetworkPort template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_NetworkPort
+ZenPacks.community.SMISMon.SNIANetworkPort
 </property>
 <tomanycont id='datasources'>
 <object id='NetworkPort' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -597,7 +597,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_NetworkPort
+/Status/SNIANetworkPort
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -608,13 +608,13 @@ True
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_ReplicationGroup') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_ReplicationGroup' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'ReplicationGroup') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/ReplicationGroup' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-Replication Group template for SMI-S Storage
+SNIAReplicationGroup template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_ReplicationGroup
+ZenPacks.community.SMISMon.SNIAReplicationGroup
 </property>
 <tomanycont id='datasources'>
 <object id='ReplicationGroup' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -663,7 +663,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_ReplicationGroup
+/Status/SNIAReplicationGroup
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -674,13 +674,13 @@ True
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_StoragePool') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_StoragePool' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'StoragePool') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/StoragePool' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-Disk Group performance template for SMI-S Storage
+SNIAStoragePool performance template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_StoragePool
+ZenPacks.community.SMISMon.SNIAStoragePool
 </property>
 <tomanycont id='datasources'>
 <object id='StoragePool' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -745,7 +745,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_StoragePool
+/Status/SNIAStoragePool
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -844,13 +844,13 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'SNIA_StorageVolume') -->
-<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/SNIA_StorageVolume' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<!-- ('', 'zport', 'dmd', 'Devices', 'Storage', 'SMI-S', 'rrdTemplates', 'StorageVolume') -->
+<object id='/zport/dmd/Devices/Storage/SMI-S/rrdTemplates/StorageVolume' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
 <property type="text" id="description" mode="w" >
-Virtual Disk performance template for SMI-S Storage
+SNIAStorageVolume performance template for SMI-S Storage
 </property>
 <property type="string" id="targetPythonClass" mode="w" >
-ZenPacks.community.SMISMon.SNIA_StorageVolume
+ZenPacks.community.SMISMon.SNIAStorageVolume
 </property>
 <tomanycont id='datasources'>
 <object id='StatisticalData' module='ZenPacks.community.SQLDataSource.datasources.SQLDataSource' class='SQLDataSource'>
@@ -961,7 +961,7 @@ True
 2
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Status/SNIA_StorageVolume
+/Status/SNIAStorageVolume
 </property>
 <property type="int" id="severity" mode="w" >
 4
@@ -1209,8 +1209,8 @@ AVERAGE
 </object>
 </tomanycont>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_Device') -->
-<object id='/zport/dmd/Events/Status/SNIA_Device' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIADevice') -->
+<object id='/zport/dmd/Events/Status/SNIADevice' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1224,8 +1224,8 @@ evt.summary = "%s (%s)"%(evt.message, state)
 evt.severity = {0:3,1:3,2:0,3:4,4:3,5:3,6:4,7:5,8:2,9:3,10:4,11:2,12:3,13:4,14:4,15:3,16:4,17:0,18:3}.get(status, 3)
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_DiskDrive') -->
-<object id='/zport/dmd/Events/Status/SNIA_DiskDrive' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIADiskDrive') -->
+<object id='/zport/dmd/Events/Status/SNIADiskDrive' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1245,8 +1245,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_EnclosureChassis') -->
-<object id='/zport/dmd/Events/Status/SNIA_EnclosureChassis' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIAEnclosureChassis') -->
+<object id='/zport/dmd/Events/Status/SNIAEnclosureChassis' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1266,8 +1266,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_NetworkPort') -->
-<object id='/zport/dmd/Events/Status/SNIA_NetworkPort' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIANetworkPort') -->
+<object id='/zport/dmd/Events/Status/SNIANetworkPort' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1287,8 +1287,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_ReplicationGroup') -->
-<object id='/zport/dmd/Events/Status/SNIA_ReplicationGroup' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIAReplicationGroup') -->
+<object id='/zport/dmd/Events/Status/SNIAReplicationGroup' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1308,8 +1308,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_StoragePool') -->
-<object id='/zport/dmd/Events/Status/SNIA_StoragePool' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIAStoragePool') -->
+<object id='/zport/dmd/Events/Status/SNIAStoragePool' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1329,8 +1329,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_StorageProcessor') -->
-<object id='/zport/dmd/Events/Status/SNIA_StorageProcessor' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIAStorageProcessor') -->
+<object id='/zport/dmd/Events/Status/SNIAStorageProcessor' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')
@@ -1350,8 +1350,8 @@ if evt.firstTime == evt.lastTime:
     txnCommit()
 </property>
 </object>
-<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIA_StorageVolume') -->
-<object id='/zport/dmd/Events/Status/SNIA_StorageVolume' module='Products.ZenEvents.EventClass' class='EventClass'>
+<!-- ('', 'zport', 'dmd', 'Events', 'Status', 'SNIAStorageVolume') -->
+<object id='/zport/dmd/Events/Status/SNIAStorageVolume' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
 status = float(evt.message.split()[-1]) 
 state = {0:'Unknown',1:'Other',2:'OK',3:'Degraded',4:'Stressed',5:'Predictive Failure',6:'Error',7:'Non-Recoverable Error',8:'Starting',9:'Stopping',10:'Stopped',11:'In Service',12:'No Contact',13:'Lost Communication',14:'Aborted',15:'Dormant',16:'Supporting Entity in Error',17:'Completed',18:'Power Mode'}.get(status, 'Unknown')

@@ -10,11 +10,11 @@
 
 __doc__="""SNIAStoragePoolMap
 
-SNIAStoragePoolMap maps CIM_StoragePool class to SNIA_StoragePool class.
+SNIAStoragePoolMap maps CIM_StoragePool class to SNIAStoragePool class.
 
-$Id: SNIAStoragePoolMap.py,v 1.2 2011/09/30 18:43:45 egor Exp $"""
+$Id: SNIAStoragePoolMap.py,v 1.4 2011/11/13 23:16:49 egor Exp $"""
 
-__version__ = '$Revision: 1.2 $'[11:-2]
+__version__ = '$Revision: 1.4 $'[11:-2]
 
 
 from ZenPacks.community.SMISMon.SMISPlugin import SMISPlugin
@@ -23,7 +23,7 @@ class SNIAStoragePoolMap(SMISPlugin):
     """Map CIM_StoragePool class to StoragePool"""
 
     maptype = "StoragePoolMap"
-    modname = "ZenPacks.community.SMISMon.SNIA_StoragePool"
+    modname = "ZenPacks.community.SMISMon.SNIAStoragePool"
     relname = "storagepools"
     compname = "os"
 
@@ -38,7 +38,7 @@ class SNIAStoragePoolMap(SMISPlugin):
                     {
                         "__PATH":"snmpindex",
                         "InstanceID":"id",
-                        "Name":"caption",
+#                        "ElementName":"caption",
                         "PoolID":"poolId",
                         "Primordial":"_primordial",
                         "TotalManagedSpace":"totalManagedSpace",
@@ -57,6 +57,7 @@ class SNIAStoragePoolMap(SMISPlugin):
                 ),
             }
 
+
     def process(self, device, results, log):
         """collect SMI-S information from this device"""
         log.info("processing %s for device %s", self.name(), device.id)
@@ -71,6 +72,8 @@ class SNIAStoragePoolMap(SMISPlugin):
             try:
                 om = self.objectMap(instance)
                 om.id = self.prepId(om.id)
+                if not hasattr(om, 'caption'):
+                    om.caption = om.poolId
             except AttributeError:
                 continue
             rm.append(om)

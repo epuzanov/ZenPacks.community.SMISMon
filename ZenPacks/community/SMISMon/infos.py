@@ -12,9 +12,9 @@ __doc__="""infos.py
 
 Representation of SNIA components.
 
-$Id: infos.py,v 1.0 2011/10/12 21:59:12 egor Exp $"""
+$Id: infos.py,v 1.1 2011/11/13 23:33:23 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from Products.Zuul.infos import ProxyProperty
 from Products.Zuul.infos.component import ComponentInfo
@@ -57,7 +57,7 @@ class DiskDriveInfo(ComponentInfo):
 
     @property
     def name(self):
-        return self._object.description
+        return self._object.viewName()
 
     @property
     def status(self):
@@ -104,6 +104,10 @@ class EnclosureChassisInfo(ComponentInfo):
     diskFF = ProxyProperty("diskFF")
 
     @property
+    def name(self):
+        return self._object.viewName()
+
+    @property
     @info
     def manufacturer(self):
         pc = self._object.productClass()
@@ -125,7 +129,7 @@ class StoragePoolInfo(ComponentInfo):
 
     @property
     def name(self):
-        return self._object.caption
+        return self._object.viewName()
 
     @property
     def totalDisks(self):
@@ -164,7 +168,7 @@ class StorageProcessorInfo(ComponentInfo):
 
     @property
     def name(self):
-        return self._object.caption
+        return self._object.viewName()
 
     @property
     @info
@@ -195,7 +199,7 @@ class StorageVolumeInfo(ComponentInfo):
 
     @property
     def name(self):
-        return self._object.caption
+        return self._object.viewName()
 
     @property
     def totalBytesString(self):
@@ -216,12 +220,7 @@ class ReplicationGroupInfo(ComponentInfo):
 
     @property
     def name(self):
-        return self._object.caption
-
-    @property
-    @info
-    def storagePool(self):
-        return self._object.getStoragePool()
+        return self._object.viewName()
 
     @property
     def status(self):
